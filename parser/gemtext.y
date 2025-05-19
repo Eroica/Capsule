@@ -25,7 +25,7 @@ extern void insert_token(const char *type, const char *value);
 	char *str;
 }
 
-%token <str> LINK HEADING LIST QUOTE TEXT _VERBATIM
+%token <str> LINK H1 H2 H3 LIST QUOTE TEXT _VERBATIM
 %token PREFORMAT NEWLINE
 
 %%
@@ -41,7 +41,9 @@ lines:
 
 line:
     LINK        { insert_token("LINK", $1); free($1); }
-    | HEADING   { insert_token("HEADING", $1); free($1); }
+    | H1        { insert_token("H1", $1); free($1); }
+    | H2        { insert_token("H2", $1); free($1); }
+    | H3        { insert_token("H3", $1); free($1); }
     | LIST      { insert_token("LIST", $1); free($1); }
     | QUOTE     { insert_token("QUOTE", $1); free($1); }
     | _VERBATIM { insert_token("PREFORMAT", $1); free($1); }
