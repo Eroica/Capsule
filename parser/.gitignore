@@ -1,0 +1,5 @@
+gemtext
+gemtext.tab.c
+gemtext.tab.h
+lex.yy.c
+libgemicom.jnilib
