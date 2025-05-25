@@ -13,9 +13,9 @@ char* extract_trimmed_content(const char *yytext, size_t prefix_len) {
 	}
 
 	char *clean = strdup(start);
-	char *newline = strchr(clean, '\n');
-	if (newline) {
-		*newline = '\0';
+	size_t len = strlen(clean);
+	while (len > 0 && (clean[len - 1] == '\n' || clean[len - 1] == '\r')) {
+		clean[--len] = '\0';
 	}
 
 	return clean;
@@ -38,28 +38,28 @@ int return_token_or_verbatim(const char *yytext, int prefix_len, int token) {
 
 %%
 
-"```"[^\n]*\n? {
+"```"[^\r\n]*\r?\n {
 	is_preformatted_mode = !is_preformatted_mode;
 	yylval.str = strdup(yytext + 3);
 	return _VERBATIM;
 }
 
-"=>"[ \t]*([^ \t\n]+)([ \t]+.*)?\n? { return return_token_or_verbatim(yytext, 2, LINK); }
-#([ \t]+)([^\n]*)\n? { return return_token_or_verbatim(yytext, 1, H1); }
-##([ \t]+)([^\n]*)\n? { return return_token_or_verbatim(yytext, 2, H2); }
-###([ \t]+)([^\n]*)\n? { return return_token_or_verbatim(yytext, 3, H3); }
-"\*"[ \t]+([^\n]*)\n? { return return_token_or_verbatim(yytext, 2, LIST); }
-">"[ \t]+([^\n]*)\n? { return return_token_or_verbatim(yytext, 2, QUOTE); }
+"=>"[ \t]*([^ \t\r\n]+)([ \t]+.*)?\r?\n { return return_token_or_verbatim(yytext, 2, LINK); }
+#([ \t]+)([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 1, H1); }
+##([ \t]+)([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 2, H2); }
+###([ \t]+)([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 3, H3); }
+"\*"[ \t]+([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 2, LIST); }
+">"[ \t]+([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 2, QUOTE); }
 
 [ \t]+  {}
-\n {
+\r?\n {
 	if (!is_preformatted_mode) {
 		return NEWLINE;
 	}
 	return return_verbatim(yytext);
 }
 
-[^ \t\n][^\n]*\n? { return return_token_or_verbatim(yytext, 0, TEXT); }
+[^ \t\r\n][^\r\n]*\r?\n { return return_token_or_verbatim(yytext, 0, TEXT); }
 
 %%
 
