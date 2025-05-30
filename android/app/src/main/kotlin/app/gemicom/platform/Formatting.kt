@@ -1,5 +1,6 @@
-package app.gemicom.ui
+package app.gemicom.platform
 
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
@@ -13,6 +14,7 @@ import android.text.style.ClickableSpan
 import android.text.style.LeadingMarginSpan
 import android.view.View
 import androidx.core.graphics.withTranslation
+import androidx.core.net.toUri
 import app.gemicom.models.Anchor
 import app.gemicom.views.lists.IGemtextClickListener
 
@@ -31,8 +33,15 @@ class ClickableAnchor(
     }
 }
 
+class NonGeminiAnchor(private val url: String) : ClickableSpan() {
+    override fun onClick(widget: View) {
+        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+        widget.context.startActivity(intent)
+    }
+}
+
 /**
- * Copy of [android.text.style.BulletSpan] from android SDK 28 with removed internal code
+ * Copy of [BulletSpan] from android SDK 28 with removed internal code
  */
 class ImprovedBulletSpan(
     val bulletRadius: Int = STANDARD_BULLET_RADIUS,

@@ -1,7 +1,6 @@
 package app.gemicom
 
 import android.app.Application
-import android.content.Context
 import app.gemicom.models.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
