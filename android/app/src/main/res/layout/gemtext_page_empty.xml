@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_margin="16dp"
+	android:orientation="vertical">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textAppearance="?textAppearanceBody1"
+		android:lineSpacingExtra="4sp"
+		android:textStyle="italic"
+		android:text="@string/gemini_page_empty_quote" />
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:textAppearance="?textAppearanceBody2"
+		android:lineSpacingExtra="4sp"
+		android:text="@string/gemini_page_empty_quote_author" />
+</LinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:paddingStart="@dimen/gemtext_default_padding"
+	android:paddingEnd="@dimen/gemtext_default_padding">
+
+	<TextView
+		android:id="@+id/gemtext"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		tools:text="www.wikipedia.org"
+		android:lineSpacingExtra="6sp"
+		android:textAppearance="?textAppearanceBody1" />
+</FrameLayout>

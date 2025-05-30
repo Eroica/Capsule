@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<item name="fragmentContainer" type="id" />
+	<item name="bottomBar" type="id" />
+	<item name="tabsButton" type="id" />
+	<item name="geminiView" type="id" />
+
+	<item name="appBarContainer" type="id" />
+	<item name="appBar" type="id" />
+	<item name="toolbar" type="id" />
+</resources>

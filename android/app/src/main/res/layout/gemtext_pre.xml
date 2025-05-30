@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_margin="8dp"
+	android:scrollbarAlwaysDrawHorizontalTrack="true"
+	android:background="@drawable/bg_pre_block">
+
+	<TextView
+		style="@style/Widget.Pre"
+		android:id="@+id/gemtext"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/gemtext_default_padding"
+		tools:text="Hello, Gemicom" />
+</HorizontalScrollView>

@@ -1,0 +1,3 @@
+NEW: Planned and past maintenances at GROUNDCTRL can be looked up here:
+
+=> gemini://status.groundctrl.earth
