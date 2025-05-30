@@ -4,8 +4,6 @@
 
 #include "gemtext.tab.h"
 
-int is_preformatted_mode;
-
 char* extract_trimmed_content(const char *yytext, size_t prefix_len) {
 	const char *start = yytext + prefix_len;
 	while (*start == ' ' || *start == '\t') {
@@ -21,45 +19,51 @@ char* extract_trimmed_content(const char *yytext, size_t prefix_len) {
 	return clean;
 }
 
-int return_verbatim(const char *yytext) {
-	yylval.str = strdup(yytext);
-	return _VERBATIM;
-}
-
-int return_token_or_verbatim(const char *yytext, int prefix_len, int token) {
-	if (!is_preformatted_mode) {
-		yylval.str = extract_trimmed_content(yytext, prefix_len);
-		return token;
-	}
-
-	return return_verbatim(yytext);
+int trimmed_token(const char *yytext, int prefix_len, int token) {
+	yylval.str = extract_trimmed_content(yytext, prefix_len);
+	return token;
 }
 %}
 
+EOL (\r\n|\r|\n)
+
+%x PRE
+
 %%
 
-"```"[^\r\n]*\r?\n {
-	is_preformatted_mode = !is_preformatted_mode;
-	yylval.str = strdup(yytext + 3);
-	return _VERBATIM;
+<PRE>"```"[^\r\n]*{EOL}? {
+    BEGIN(INITIAL);
+    /* return a token if you want (or ignore) */
+    yylval.str = strdup(yytext + 3);
+    return PREFORMAT;
 }
 
-"=>"[ \t]*([^ \t\r\n]+)([ \t]+.*)?\r?\n { return return_token_or_verbatim(yytext, 2, LINK); }
-#([ \t]+)([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 1, H1); }
-##([ \t]+)([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 2, H2); }
-###([ \t]+)([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 3, H3); }
-"\*"[ \t]+([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 2, LIST); }
-">"[ \t]+([^\r\n]*)\r?\n { return return_token_or_verbatim(yytext, 2, QUOTE); }
+<PRE>[^\r\n]*{EOL}? {
+    yylval.str = strdup(yytext);
+    return PREFORMAT;
+}
+
+"```"[^\r\n]*{EOL}? {
+    BEGIN(PRE);
+    yylval.str = strdup(yytext + 3);
+    return PREFORMAT;
+}
+
+"=>"[ \t]*([^ \t\r\n]+)([ \t]+.*)?{EOL}? { return trimmed_token(yytext, 2, LINK); }
+#([ \t]+)([^\r\n]*){EOL}? { return trimmed_token(yytext, 1, H1); }
+##([ \t]+)([^\r\n]*){EOL}? { return trimmed_token(yytext, 2, H2); }
+###([ \t]+)([^\r\n]*){EOL}? { return trimmed_token(yytext, 3, H3); }
+"\*"[ \t]+([^\r\n]*){EOL}? { return trimmed_token(yytext, 2, LIST); }
+">"[ \t]+([^\r\n]*){EOL}? { return trimmed_token(yytext, 2, QUOTE); }
 
 [ \t]+  {}
-\r?\n {
-	if (!is_preformatted_mode) {
-		return NEWLINE;
-	}
-	return return_verbatim(yytext);
+{EOL}? {
+	return NEWLINE;
 }
 
-[^ \t\r\n][^\r\n]*\r?\n { return return_token_or_verbatim(yytext, 0, TEXT); }
+[^ \t\r\n][^\r\n]*{EOL}? {
+	return trimmed_token(yytext, 0, TEXT);
+}
 
 %%
 
