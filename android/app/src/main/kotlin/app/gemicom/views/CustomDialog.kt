@@ -25,9 +25,14 @@ class CustomDialog(context: Context) : AlertDialog(context) {
 
     private var listener: ICancelListener? = null
 
+    /* Remember that show() can be called multiple times (e.g. when switching to and from apps),
+       so view setup must only be done once. */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_view)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+
         title = findViewById(R.id.title)
         cancelButton = findViewById(R.id.cancelButton)
         container = findViewById(R.id.container)
@@ -39,14 +44,6 @@ class CustomDialog(context: Context) : AlertDialog(context) {
             cancelButton?.setOnClickListener { listener?.onCancel() }
         }
         mView?.let { container?.addView(it) }
-    }
-
-    /* Show can be called multiple times, e.g. when switching to and from apps */
-    override fun show() {
-        super.show()
-        window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT
-        )
     }
 
     override fun dismiss() {
