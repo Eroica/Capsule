@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
+import android.view.HapticFeedbackConstants
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.viewModels
@@ -56,6 +57,11 @@ class SimpleItemTouchHelperCallback(private val listener: ITabsDialog) : ItemTou
 
     override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
         listener.onTabSwiped(viewHolder.adapterPosition)
+    }
+
+    override fun onSelectedChanged(viewHolder: ViewHolder?, actionState: Int) {
+        super.onSelectedChanged(viewHolder, actionState)
+        viewHolder?.itemView?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
     }
 }
 
