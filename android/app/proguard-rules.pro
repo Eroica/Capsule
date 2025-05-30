@@ -19,3 +19,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontwarn java.sql.JDBCType
+
+-keep class org.sqlite.** { *; }
+-keepnames class org.sqlite.* { *; }
+
+-keep class app.gemicom.lib.Token {
+    public <init>(java.lang.String, java.lang.String);
+}
