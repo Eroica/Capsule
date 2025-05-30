@@ -18,11 +18,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import app.gemicom.InvalidGeminiUri
 import app.gemicom.R
 import app.gemicom.fragments.ITabsDialog
 import app.gemicom.models.*
-import app.gemicom.ui.ClickableAnchor
-import app.gemicom.ui.bulletedText
+import app.gemicom.platform.ClickableAnchor
+import app.gemicom.platform.GeminiUri
+import app.gemicom.platform.NonGeminiAnchor
+import app.gemicom.platform.bulletedText
 import app.gemicom.ui.toDp
 import java.time.format.DateTimeFormatter
 
@@ -141,7 +144,12 @@ class GeminiAdapter(
 
             val builder = SpannableStringBuilder()
             block.anchors.forEach {
-                val clickableSpan = ClickableAnchor(it, typedValue.data, listener)
+                val clickableSpan = try {
+                    GeminiUri.fromAddress(it.url)
+                    ClickableAnchor(it, typedValue.data, listener)
+                } catch (_: InvalidGeminiUri) {
+                    NonGeminiAnchor(it.url)
+                }
                 val span = SpannableString(
                     """${it.content}
 """
