@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialogFragment
@@ -47,6 +48,7 @@ class InputDialogFragment : AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = CustomDialog(requireContext())
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         val layout = layoutInflater.inflate(R.layout.dialog_input, dialog.findViewById(R.id.container), false)
         dialog.setTitle(getString(R.string.dialog_title_input))
             .addView(layout)
