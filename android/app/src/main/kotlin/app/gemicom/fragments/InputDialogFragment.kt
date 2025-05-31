@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.os.bundleOf
 import app.gemicom.R
 import app.gemicom.platform.ViewRefs
-import app.gemicom.views.CustomDialog
+import app.gemicom.controllers.CustomDialog
 import com.google.android.material.textfield.TextInputEditText
 
 interface IInputListener {

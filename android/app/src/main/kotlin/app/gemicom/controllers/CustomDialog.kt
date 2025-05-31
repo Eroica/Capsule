@@ -1,4 +1,4 @@
-package app.gemicom.views
+package app.gemicom.controllers
 
 import android.content.Context
 import android.os.Bundle

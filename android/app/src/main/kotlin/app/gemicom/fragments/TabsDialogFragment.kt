@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import app.gemicom.R
-import app.gemicom.views.CustomDialog
-import app.gemicom.views.ICancelListener
+import app.gemicom.controllers.CustomDialog
+import app.gemicom.controllers.ICancelListener
 import app.gemicom.views.lists.TabsAdapter
 import app.gemicom.views.models.TabsDialogViewModel
 import kotlinx.coroutines.launch
