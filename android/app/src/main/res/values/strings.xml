@@ -36,6 +36,7 @@
 <p><b>The server’s certificate has changed in the meantime.</b> This could mean that someone who was not the original author has taken over this host!</p>
 <p>If you are sure that you want to trust this host, you can continue this request. Gemicom will update the stored certificate.</p>
 ]]></string>
+	<string name="dialog_security_issue_confirm">I understand the risk, and want to continue</string>
 	<string name="dialog_security_issue_button_submit">Continue</string>
 
 	<string name="tab_created_at_format">MMMM dd, yyyy, HH:mm</string>
