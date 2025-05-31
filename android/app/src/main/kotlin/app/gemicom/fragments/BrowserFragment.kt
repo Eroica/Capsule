@@ -258,6 +258,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
                                 )
                             }
                         }
+
                         R.id.about -> navigation?.onAboutClick()
                         R.id.settings -> navigation?.onSettingsClick()
                         else -> return false
@@ -356,8 +357,8 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
     private fun unfocusAddressBar() {
         if (addressBar().isFocused) {
             addressBar().clearFocus()
-            val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(addressBar().windowToken, 0)
+            (requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
+                .hideSoftInputFromWindow(addressBar().windowToken, 0)
         }
     }
 }
