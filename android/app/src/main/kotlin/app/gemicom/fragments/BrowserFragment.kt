@@ -273,12 +273,16 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
     private fun setupMenuListeners(menu: Menu) {
         val backItem = menu.findItem(R.id.browser_back)
         val forwardItem = menu.findItem(R.id.browser_forward)
+        val refreshItem = menu.findItem(R.id.browser_refresh)
 
         viewModel.currentUrl.observe(viewLifecycleOwner) {
             backItem.isEnabled = viewModel.currentTab.value?.canGoBack() ?: false
         }
         viewModel.currentUrl.observe(viewLifecycleOwner) {
             forwardItem.isEnabled = viewModel.currentTab.value?.canGoForward() ?: false
+        }
+        viewModel.currentUrl.observe(viewLifecycleOwner) {
+            refreshItem.isEnabled = viewModel.currentTab.value?.tab?.status != TabStatus.BLANK
         }
     }
 
