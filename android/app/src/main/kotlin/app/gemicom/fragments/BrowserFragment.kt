@@ -71,7 +71,6 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         }
     }
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        viewModel.isLoading.value = false
         when (throwable) {
             is InvalidGeminiUri, is InvalidHostError, is InvalidGeminiResponse -> {
                 geminiView().show(InvalidGeminiDocument)

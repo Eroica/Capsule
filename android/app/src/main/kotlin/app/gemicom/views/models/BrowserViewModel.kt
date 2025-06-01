@@ -18,7 +18,8 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
     private val Dispatcher: CoroutineDispatcher by instance()
     private val Writer: CoroutineDispatcher by instance(tag = "WRITER")
 
-    val isLoading = MutableLiveData(false)
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
 
     private val _currentUrl = MutableLiveData("")
     val currentUrl: LiveData<String> = _currentUrl
@@ -99,10 +100,13 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
         address: String, pushToHistory: Boolean = true, isCheckCache: Boolean = true
     ) = withContext(Writer) {
         _currentTab.value?.let {
-            isLoading.postValue(true)
-            _document.postValue(it.navigate(address, pushToHistory, isCheckCache))
-            _currentUrl.postValue(it.currentLocation)
-            isLoading.postValue(false)
+            try {
+                _isLoading.postValue(true)
+                _document.postValue(it.navigate(address, pushToHistory, isCheckCache))
+                _currentUrl.postValue(it.currentLocation)
+            } finally {
+                _isLoading.postValue(false)
+            }
         }
     }
 
