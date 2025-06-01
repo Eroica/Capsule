@@ -69,10 +69,9 @@ class TabsDialogFragment : AppCompatDialogFragment(),
     ITabsDialog,
     ICancelListener {
     private val viewModel: TabsDialogViewModel by viewModels()
+    private var listener: ITabListener? = null
 
     override val adapter = TabsAdapter(this)
-
-    private var listener: ITabListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

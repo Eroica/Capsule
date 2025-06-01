@@ -25,7 +25,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private val viewModel: SettingsViewModel by viewModels()
-
     private val viewRefs = ViewRefs()
 
     private lateinit var darkThemeSwitch: () -> SwitchCompat

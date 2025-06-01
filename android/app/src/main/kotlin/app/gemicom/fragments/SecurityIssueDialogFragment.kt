@@ -13,9 +13,9 @@ import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
 import app.gemicom.R
+import app.gemicom.controllers.CustomDialog
 import app.gemicom.models.ICertificates
 import app.gemicom.platform.ViewRefs
-import app.gemicom.controllers.CustomDialog
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

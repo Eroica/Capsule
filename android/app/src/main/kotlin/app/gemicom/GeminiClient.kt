@@ -7,11 +7,7 @@ import org.apache.commons.io.FilenameUtils
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.Reader
-import java.net.ConnectException
-import java.net.SocketTimeoutException
-import java.net.URI
-import java.net.URISyntaxException
-import java.net.UnknownHostException
+import java.net.*
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.security.MessageDigest
@@ -42,8 +38,8 @@ class InvalidGeminiUri(message: String) : Exception(message)
 class InvalidGeminiResponse(message: String) : Exception(message)
 class NoResponseError(message: String) : Exception(message)
 class TooManyRedirects(message: String) : Exception(message)
-class InputRequired(val currentUrl: String, val meta: String) : Exception()
-class SensitiveInputRequired(val currentUrl: String, val meta: String) : Exception()
+class InputRequired(val currentUri: String, val meta: String) : Exception()
+class SensitiveInputRequired(val currentUri: String, val meta: String) : Exception()
 class CertificateMismatchError(
     val host: String,
     val newHash: String

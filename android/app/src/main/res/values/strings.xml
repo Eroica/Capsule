@@ -24,7 +24,9 @@
 	<string name="dialog_tabs_tab_position">Tab %1$d</string>
 	<string name="dialog_tabs_blank_tab">Blank tab</string>
 
-	<string name="dialog_title_input">Input required</string>
+	<string name="dialog_input_title">Input required</string>
+	<string name="dialog_input_explanation">The server at &lt;tt&gt;%1$s&lt;/tt&gt; requested input, and provided this message:</string>
+	<string name="dialog_input_explanation_no_meta">The server at &lt;tt&gt;%1$s&lt;/tt&gt; requested input, but did not provide additional information.</string>
 	<string name="dialog_input_button_submit">Submit</string>
 
 	<string name="dialog_security_issue_title">WARNING: Security issue</string>

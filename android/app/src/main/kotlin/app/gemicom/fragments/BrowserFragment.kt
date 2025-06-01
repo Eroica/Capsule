@@ -55,7 +55,6 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
     }
 
     private val viewModel: BrowserViewModel by viewModels()
-
     private val viewRefs = ViewRefs()
     private lateinit var tabsButton: () -> TabsButton
     private lateinit var addressBar: () -> EditText
@@ -107,10 +106,10 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
                 }
             }
 
-            is InputRequired -> InputDialogFragment(throwable.meta)
+            is InputRequired -> InputDialogFragment(throwable.currentUri, throwable.meta)
                 .show(childFragmentManager, "Input")
 
-            is SensitiveInputRequired -> InputDialogFragment(throwable.meta, true)
+            is SensitiveInputRequired -> InputDialogFragment(throwable.currentUri, throwable.meta, true)
                 .show(childFragmentManager, "Input")
 
             is CertificateMismatchError -> {
