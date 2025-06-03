@@ -111,11 +111,15 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
                 }
             }
 
-            is InputRequired -> InputDialogFragment(throwable.currentUri, throwable.meta)
-                .show(childFragmentManager, "Input")
+            is InputRequired -> if (childFragmentManager.findFragmentByTag(InputDialogFragment.TAG) == null) {
+                InputDialogFragment(throwable.currentUri, throwable.meta)
+                    .show(childFragmentManager, InputDialogFragment.TAG)
+            }
 
-            is SensitiveInputRequired -> InputDialogFragment(throwable.currentUri, throwable.meta, true)
-                .show(childFragmentManager, "Input")
+            is SensitiveInputRequired -> if (childFragmentManager.findFragmentByTag(InputDialogFragment.TAG) == null) {
+                InputDialogFragment(throwable.currentUri, throwable.meta, true)
+                    .show(childFragmentManager, InputDialogFragment.TAG)
+            }
 
             is CertificateMismatchError -> {
                 geminiView().show(SecurityIssueGeminiDocument)
@@ -187,6 +191,9 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
     }
 
     override fun onAnchorClicked(anchor: Anchor) {
+        if (viewModel.isLoading.value == true) {
+            return
+        }
         co.launch { viewModel.navigate(anchor.url, pushToHistory = true, isCheckCache = false) }
     }
 

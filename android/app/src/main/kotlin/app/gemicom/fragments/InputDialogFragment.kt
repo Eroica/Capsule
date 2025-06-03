@@ -22,6 +22,7 @@ interface IInputListener {
 
 class InputDialogFragment : AppCompatDialogFragment() {
     companion object {
+        const val TAG = "InputDialogFragment"
         private const val ARG_URI = "URI"
         private const val ARG_MESSAGE = "MESSAGE"
         private const val ARG_IS_SENSITIVE = "IS_SENSITIVE"
