@@ -103,8 +103,8 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
             try {
                 _isLoading.postValue(true)
                 _document.postValue(it.navigate(address, pushToHistory, isCheckCache))
-                _currentUrl.postValue(it.currentLocation)
             } finally {
+                _currentUrl.postValue(it.currentLocation)
                 _isLoading.postValue(false)
             }
         }
