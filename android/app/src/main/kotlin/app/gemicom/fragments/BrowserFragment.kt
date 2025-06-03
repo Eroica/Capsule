@@ -290,7 +290,10 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
     }
 
     private fun setupListeners() {
-        clearButton().setOnClickListener { addressBar().setText("") }
+        clearButton().setOnClickListener {
+            addressBar().setText("")
+            focusAddressBar()
+        }
         tabsButton().listener = this@BrowserFragment
         geminiView().listener = this@BrowserFragment
         geminiView().scrollListener = IViewInteraction { unfocusAddressBar() }
@@ -362,5 +365,11 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
             (requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
                 .hideSoftInputFromWindow(addressBar().windowToken, 0)
         }
+    }
+
+    private fun focusAddressBar() {
+        addressBar().requestFocus()
+        (requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
+            .showSoftInput(addressBar(), InputMethodManager.SHOW_IMPLICIT)
     }
 }
