@@ -57,7 +57,8 @@ Text 3
                 Preformat("=> https://example.com    A cool website\n"),
                 Preformat("=> gopher://example.com   An even cooler gopherhole\n"),
                 Preformat("=> gemini://example.com   A supremely cool Gemini capsule\n"),
-                Preformat("=> sftp://example.com\n")
+                Preformat("=> sftp://example.com\n"),
+                Preformat("")
             ),
             document.tokens
         )

@@ -215,7 +215,7 @@ class TabDiffCallback : DiffUtil.ItemCallback<ITab>() {
 class TabsAdapter(private val listener: ITabsDialog) : ListAdapter<ITab, BindingViewHolder>(TabDiffCallback()) {
     private var dateFormatter: DateTimeFormatter? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, position: Int): BindingViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_2, parent, false)
         view.isClickable = true
         val backgroundValue = TypedValue()
@@ -229,9 +229,7 @@ class TabsAdapter(private val listener: ITabsDialog) : ListAdapter<ITab, Binding
             holder.itemView.context.getString(R.string.tab_created_at_format)
         ).also { dateFormatter = it }
         holder.itemView.findViewById<TextView>(android.R.id.text1).apply {
-            text = getItem(position).currentLocation.ifBlank {
-                holder.itemView.context.getString(R.string.dialog_tabs_blank_tab)
-            }
+            text = getItem(position).currentLocation.ifBlank { holder.itemView.context.getString(R.string.dialog_tabs_blank_tab) }
         }
         holder.itemView.findViewById<TextView>(android.R.id.text2).apply {
             text = formatter.format(getItem(position).createdAt)

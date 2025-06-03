@@ -283,7 +283,7 @@ private fun readLimitedText(reader: Reader, maxSize: Int): String {
 }
 
 private fun readLimitedBytes(input: InputStream, maxSize: Int): ByteArray {
-    val output = java.io.ByteArrayOutputStream()
+    val output = ByteArrayOutputStream()
     val buffer = ByteArray(8192)
     var total = 0
 
