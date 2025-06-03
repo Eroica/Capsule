@@ -193,13 +193,11 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
     override fun onImageClicked(image: Image, imageView: ImageView) {
         viewModel.currentTab.value?.let {
             try {
-                imageView.load(GeminiUri.fromAddress(it.resolve(image.url)), imageLoader) {
-                    listener(onError = { _, _ ->
-                        Toast.makeText(
-                            context, getString(R.string.browser_load_image_error), Toast.LENGTH_SHORT
-                        ).show()
-                    })
-                }
+                imageView.loadOrToast(
+                    GeminiUri.fromAddress(it.resolve(image.url)), imageLoader,
+                    requireContext(),
+                    getString(R.string.browser_load_image_error)
+                )
             } catch (_: InvalidGeminiUri) {
                 imageView.load(image.url)
             }

@@ -1,11 +1,17 @@
 package app.gemicom.platform
 
 import android.content.ClipboardManager
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.IdRes
+import app.gemicom.R
+import coil.ImageLoader
+import coil.load
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -57,3 +63,16 @@ fun ClipboardManager.addListener(clipboard: ClipboardManager): Flow<String> = ca
 }
 
 fun ClipboardManager.content() = primaryClip?.getItemAt(0)?.text?.toString() ?: ""
+
+fun ImageView.loadOrToast(
+    data: Any?,
+    imageLoader: ImageLoader,
+    context: Context,
+    errorMessage: String
+) {
+    load(data, imageLoader) {
+        listener(onError = { _, _ ->
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        })
+    }
+}
