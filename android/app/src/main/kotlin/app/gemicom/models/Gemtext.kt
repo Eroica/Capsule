@@ -53,7 +53,8 @@ data class Image(val url: String, override val content: String) : IGemtext {
 
     companion object {
         val FORMATS = setOf(
-            "jpg", "jpeg", "png", "gif", "bmp", "webp", "svg"
+            "jpg", "jpeg", "png", "gif", "bmp", "webp", "svg",
+            "JPG", "JPEG", "PNG", "GIF", "BMP", "WEBP", "SVG"
         )
     }
 }
