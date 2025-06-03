@@ -129,7 +129,7 @@ class GeminiAdapter(
                 FROM_HTML_MODE_COMPACT
             )
             setText(
-                bulletedText(htmlSpans, 3f.toDp(view.context), 8f.toDp(view.context)),
+                bulletedText(htmlSpans, 3f.toDp(view.context), 8f.toDp(view.context)).trim(),
                 TextView.BufferType.SPANNABLE
             )
         }
@@ -177,7 +177,7 @@ class GeminiAdapter(
         } else {
             view.findViewById<ImageView>(R.id.gemtextImage).visibility = VISIBLE
         }
-        
+
         view.findViewById<TextView>(R.id.gemtextImageLabel).text = token.content
         view.setOnClickListener {
             view.findViewById<ImageView>(R.id.gemtextImage).apply {

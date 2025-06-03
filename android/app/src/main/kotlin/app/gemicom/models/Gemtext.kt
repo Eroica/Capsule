@@ -68,10 +68,7 @@ data class PreformatBlock(val pres: List<Preformat>) : IGemtext {
 /* Container for list items */
 data class ListItemBlock(val lis: List<ListItem>) : IGemtext {
     override val content: String
-        get() = """<ul>
-    ${lis.joinToString("\n") { it.htmlTag() }}
-</ul>
-"""
+        get() = """<ul>${lis.joinToString("") { it.htmlTag() }}</ul>"""
 }
 
 /* Container for links */
