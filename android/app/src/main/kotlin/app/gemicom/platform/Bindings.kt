@@ -1,5 +1,6 @@
 package app.gemicom.platform
 
+import android.content.ClipboardManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -10,6 +11,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
+
 
 class ViewRefs {
     private val views = mutableMapOf<Int, View>()
@@ -45,3 +47,13 @@ fun EditText.textChanges(): Flow<CharSequence?> = callbackFlow {
     addTextChangedListener(watcher)
     awaitClose { removeTextChangedListener(watcher) }
 }
+
+fun ClipboardManager.addListener(clipboard: ClipboardManager): Flow<String> = callbackFlow {
+    val listener = ClipboardManager.OnPrimaryClipChangedListener {
+        trySend(content())
+    }
+    addPrimaryClipChangedListener(listener)
+    awaitClose { removePrimaryClipChangedListener(listener) }
+}
+
+fun ClipboardManager.content() = primaryClip?.getItemAt(0)?.text?.toString() ?: ""

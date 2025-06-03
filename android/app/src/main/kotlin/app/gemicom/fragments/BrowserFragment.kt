@@ -1,6 +1,8 @@
 package app.gemicom.fragments
 
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.*
@@ -29,6 +31,8 @@ import app.gemicom.views.models.BrowserViewModel
 import coil.ImageLoader
 import coil.load
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.kodein.di.conf.DIGlobalAware
 import org.kodein.di.instance
 
@@ -63,6 +67,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
     private lateinit var progressBar: () -> ProgressBar
     private lateinit var bottomBarHeader: () -> ViewGroup
     private lateinit var homeButton: () -> Button
+    private lateinit var pasteButton: () -> Button
 
     private lateinit var co: CoroutineScope
     private val backPressedCallback = object : OnBackPressedCallback(true) {
@@ -143,6 +148,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         progressBar = viewRefs.bind(view, R.id.progressBar)
         bottomBarHeader = viewRefs.bind(view, R.id.bottomBarHeader)
         homeButton = viewRefs.bind(view, R.id.bottomHomeButton)
+        pasteButton = viewRefs.bind(view, R.id.bottomPasteButton)
 
         co = viewLifecycleOwner.lifecycleScope + exceptionHandler
         co.launch {
@@ -165,6 +171,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         tabsButton().listener = null
         geminiView().listener = null
         geminiView().scrollListener = null
+        pasteButton().setOnClickListener(null)
         viewRefs.clear()
         super.onDestroyView()
     }
@@ -307,6 +314,14 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
                     viewModel.navigate(homeCapsule)
                 }
             }
+        }
+
+        val clipBoard = requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        clipBoard.addListener(clipBoard)
+            .onEach { pasteButton().isEnabled = it.isNotBlank() }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+        pasteButton().setOnClickListener {
+            co.launch { viewModel.navigate(clipBoard.content()) }
         }
         parentFragmentManager.setFragmentResultListener(
             SettingsFragment.RESULT_SETTINGS,

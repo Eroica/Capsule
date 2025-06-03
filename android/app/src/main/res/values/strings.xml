@@ -17,6 +17,7 @@
 	<string name="browser_load_image_error">Could not retrieve image</string>
 	<string name="browser_toast_set_home">Set a home capsule in Gemicom’s settings</string>
 	<string name="browser_menu_home">Home</string>
+	<string name="browser_menu_paste">Paste &amp; go</string>
 
 	<string name="dialog_tabs_title">Tabs</string>
 	<string name="dialog_tabs_button_close_all">Close all</string>
