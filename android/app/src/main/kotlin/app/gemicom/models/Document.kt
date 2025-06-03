@@ -98,7 +98,7 @@ class ChunkedGeminiDocument(override val blocks: List<IGemtext>) : IGeminiDocume
         }
     }
 
-    constructor(document: GeminiDocument) : this(mergeTokens(document.tokens.filter { it !is Newline }))
+    constructor(document: GeminiDocument) : this(mergeTokens(document.tokens).filter { it !is Newline })
 }
 
 data object EmptyGeminiDocument : IGeminiDocument {
