@@ -49,6 +49,8 @@ object Newline : IGemtext {
 
 /* Specialized Anchor tag */
 data class Image(val url: String, override val content: String) : IGemtext {
+    var isExpanded: Boolean = false
+
     companion object {
         val FORMATS = setOf(
             "jpg", "jpeg", "png", "gif", "bmp", "webp", "svg"

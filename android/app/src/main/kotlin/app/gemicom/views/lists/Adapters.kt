@@ -8,6 +8,8 @@ import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -170,19 +172,24 @@ class GeminiAdapter(
     }
 
     private fun bindImage(view: View, token: Image) {
-        var isExpanded = false
+        if (!token.isExpanded) {
+            view.findViewById<ImageView>(R.id.gemtextImage).visibility = GONE
+        } else {
+            view.findViewById<ImageView>(R.id.gemtextImage).visibility = VISIBLE
+        }
+        
         view.findViewById<TextView>(R.id.gemtextImageLabel).text = token.content
         view.setOnClickListener {
             view.findViewById<ImageView>(R.id.gemtextImage).apply {
-                isExpanded = !isExpanded
+                token.isExpanded = !token.isExpanded
 
-                if (isExpanded) {
+                if (token.isExpanded) {
                     TransitionManager.beginDelayedTransition(view as ViewGroup, AutoTransition())
                     listener.onImageClicked(token, this)
-                    visibility = View.VISIBLE
+                    visibility = VISIBLE
                 } else {
                     TransitionManager.beginDelayedTransition(view as ViewGroup, AutoTransition())
-                    visibility = View.GONE
+                    visibility = GONE
                 }
             }
         }
