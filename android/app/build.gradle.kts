@@ -13,8 +13,8 @@ android {
         applicationId = "app.gemicom"
         minSdk = 28
         targetSdk = 34
-        versionCode = 1
-        versionName = "v2025.06"
+        versionCode = 2
+        versionName = "v2025.06a"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
