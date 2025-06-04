@@ -30,9 +30,7 @@ fun appModule(appDir: Path, mediaRoot: Path, cacheDir: Path) = DI.Module(name = 
     bindSingleton { SqlCertificates(instance()) }
 
     bindSingleton { GeminiClient(instance()) }
-    bindSingleton(tag = "DEFAULT_CACHE") {
-        SqliteCache(SqliteCache.DEFAULT_CACHE_ID, cacheDir, instance())
-    }
+    bindSingleton { SqliteCache(SqliteCache.DEFAULT_CACHE_ID, cacheDir, instance()) }
 
     bindSingleton(tag = "AppSettings") { SqlPreferences("AppSettings", instance()) }
 }

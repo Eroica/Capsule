@@ -51,6 +51,7 @@ ${managedFiles.joinToString("\n") { it.toString() }}""" }
         logger.info { "Cache $cacheId: Added $name ($originalName)" }
     }
 
+    /* Deletes all "unknown" files, i.e. those that are found in cacheDir, but not in DB */
     fun purge() {
         logger.info { "Cache $cacheId: Begin cache purge" }
         val knownFiles = db.query(Sql.Cache_All, {}) {

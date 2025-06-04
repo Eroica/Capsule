@@ -45,7 +45,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
     IImagePool,
     DIGlobalAware {
     private val AppSettings: IPreferences by instance(tag = "AppSettings")
-    private val DefaultCache: SqliteCache by instance(tag = "DEFAULT_CACHE")
+    private val DefaultCache: SqliteCache by instance()
     private val Certificates: ICertificates by instance()
     private val Dispatcher: CoroutineDispatcher by instance()
 

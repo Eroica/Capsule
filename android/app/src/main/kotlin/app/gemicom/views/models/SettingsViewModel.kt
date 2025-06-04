@@ -8,6 +8,7 @@ import app.gemicom.models.ICertificates
 import app.gemicom.models.IDocuments
 import app.gemicom.models.IPreferences
 import app.gemicom.models.ITabs
+import app.gemicom.models.SqliteCache
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class SettingsViewModel : ViewModel(), DIGlobalAware {
     private val Documents: IDocuments by instance()
     private val Tabs: ITabs by instance()
     private val Certificates: ICertificates by instance()
+    private val DefaultCache: SqliteCache by instance()
     private val AppSettings: IPreferences by instance(tag = "AppSettings")
     private val Dispatcher: CoroutineDispatcher by instance()
     private val Writer: CoroutineDispatcher by instance(tag = "WRITER")
@@ -50,6 +52,7 @@ class SettingsViewModel : ViewModel(), DIGlobalAware {
         Documents.clear()
         Tabs.all().forEach { ScopedTab(it).close() }
         Tabs.clear()
+        DefaultCache.purge()
     }
 
     suspend fun resetPreferences() = withContext(Writer) {
