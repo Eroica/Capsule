@@ -37,6 +37,7 @@ fun appModule(appDir: Path, mediaRoot: Path, cacheDir: Path) = DI.Module(name = 
 
 class App : Application(), DIGlobalAware {
     private val Documents: IDocuments by instance()
+    private val DefaultCache: SqliteCache by instance()
     private val DefaultContext: IContext by instance()
     private val Writer: CoroutineDispatcher by instance(tag = "WRITER")
 
@@ -49,9 +50,10 @@ class App : Application(), DIGlobalAware {
         mediaRoot.resolve(MEDIA_NAME).toPath().createDirectories()
         DI.global.addImport(appModule(appDir, mediaRoot.toPath(), cacheDir))
 
-        /* Clean up old document cache */
+        /* Maintenance on startup */
         DefaultContext.co.launch(Writer) {
             Documents.clear(LocalDateTime.now().minusMonths(1))
+            DefaultCache.purge()
         }
     }
 }
