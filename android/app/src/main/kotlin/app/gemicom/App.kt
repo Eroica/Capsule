@@ -2,12 +2,15 @@ package app.gemicom
 
 import android.app.Application
 import app.gemicom.models.*
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.Logger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.kodein.di.*
 import org.kodein.di.conf.DIGlobalAware
 import org.kodein.di.conf.global
+import org.slf4j.LoggerFactory
 import java.nio.file.Path
 import java.time.LocalDateTime
 import kotlin.io.path.createDirectories
@@ -38,6 +41,7 @@ fun appModule(appDir: Path, mediaRoot: Path, cacheDir: Path) = DI.Module(name = 
 class App : Application(), DIGlobalAware {
     private val Documents: IDocuments by instance()
     private val DefaultCache: SqliteCache by instance()
+    private val AppSettings: IPreferences by instance(tag = "AppSettings")
     private val DefaultContext: IContext by instance()
     private val Writer: CoroutineDispatcher by instance(tag = "WRITER")
 
@@ -50,8 +54,13 @@ class App : Application(), DIGlobalAware {
         mediaRoot.resolve(MEDIA_NAME).toPath().createDirectories()
         DI.global.addImport(appModule(appDir, mediaRoot.toPath(), cacheDir))
 
-        /* Maintenance on startup */
         DefaultContext.co.launch(Writer) {
+            if (AppSettings["isDebug"] == "1") {
+                val root = LoggerFactory.getLogger("ROOT") as Logger
+                root.level = Level.DEBUG
+            }
+
+            /* Maintenance on startup */
             Documents.clear(LocalDateTime.now().minusMonths(1))
             DefaultCache.purge()
         }
