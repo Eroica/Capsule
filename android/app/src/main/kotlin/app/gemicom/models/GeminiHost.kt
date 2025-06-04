@@ -40,9 +40,8 @@ class GeminiHost private constructor(var uri: URI) {
         get() = uri.toString()
 
     fun resolve(reference: String): String {
-        /* If reference is actually another host, replace */
-        return if (isWithHost(reference)) {
-            fromAddress(reference).location
+        return if (isFullUri(reference)) {
+            uri.resolve(reference).toString()
         } else if (isMalformed(reference)) {
             resolve(reference.substring(2))
         } else {
@@ -58,8 +57,13 @@ class GeminiHost private constructor(var uri: URI) {
         return location
     }
 
-    private fun isWithHost(reference: String): Boolean {
-        return !reference.startsWith(".") && !reference.startsWith("/") && reference.contains(".")
+    /**
+     * @since 2025-06-04
+     * The first part in "localhost/img/img.png" and "img/img.png" could both be a host.
+     * The only thing one can tell apart is if there is a scheme.
+     */
+    private fun isFullUri(reference: String): Boolean {
+        return URI(reference).scheme != null
     }
 
     private fun isMalformed(reference: String): Boolean {
