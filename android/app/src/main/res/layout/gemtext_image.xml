@@ -12,11 +12,13 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:paddingStart="@dimen/gemtext_default_padding"
-		android:paddingEnd="@dimen/gemtext_default_padding">
+		android:paddingEnd="@dimen/gemtext_default_padding"
+		android:paddingTop="8dp">
 
 		<ImageView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:contentDescription="@null"
 			app:srcCompat="@drawable/imagesmode_24px" />
 
 		<TextView
@@ -26,8 +28,8 @@
 			android:layout_height="wrap_content"
 			android:layout_marginStart="4dp"
 			android:layout_marginTop="4dp"
-			tools:text="An image of"
-			android:textAppearance="?textAppearanceCaption" />
+			android:textAppearance="?textAppearanceCaption"
+			tools:text="An image of" />
 	</LinearLayout>
 
 	<ImageView
