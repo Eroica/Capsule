@@ -172,12 +172,6 @@ class GeminiAdapter(
     }
 
     private fun bindImage(view: View, token: Image) {
-        if (!token.isExpanded) {
-            view.findViewById<ImageView>(R.id.gemtextImage).visibility = GONE
-        } else {
-            view.findViewById<ImageView>(R.id.gemtextImage).visibility = VISIBLE
-        }
-
         view.findViewById<TextView>(R.id.gemtextImageLabel).text = token.content
         view.setOnClickListener {
             view.findViewById<ImageView>(R.id.gemtextImage).apply {
@@ -192,6 +186,15 @@ class GeminiAdapter(
                     visibility = GONE
                 }
             }
+        }
+
+        val imageView = view.findViewById<ImageView>(R.id.gemtextImage)
+
+        if (!token.isExpanded) {
+            imageView.visibility = GONE
+        } else {
+            imageView.visibility = VISIBLE
+            listener.onImageClicked(token, imageView)
         }
     }
 
