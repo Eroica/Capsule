@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.1.20"
-agp = "8.10.0"
+agp = "8.10.1"
 appcompat = "1.7.0"
 coreKtx = "1.16.0"
 fragmentKtx = "1.8.7"
