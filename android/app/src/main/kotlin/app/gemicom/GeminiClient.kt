@@ -99,7 +99,10 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
             11 -> throw SensitiveInputRequired(uri, meta)
             in 12..19 -> throw InputRequired(uri, meta)
             in 30..39 -> redirectTo(meta)
-            !in 20..29 -> throw InvalidGeminiResponse("Server responded with non-success: $status")
+            !in 20..29 -> {
+                logger.debug { "Server responded with non-success: $status" }
+                throw InvalidGeminiResponse("Server responded with non-success: $status")
+            }
             else -> readLimitedText(reader, MAX_RESPONSE_SIZE)
         }
     }
@@ -109,6 +112,7 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
         val (status, meta) = parseHeader(headerLine)
 
         if (status !in 20..29) {
+            logger.debug { "Server responded with non-success: $status" }
             throw InvalidGeminiResponse("Cannot download: server responded with status $status ($meta)")
         }
 
@@ -146,6 +150,7 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
                     throw e
                 }
             } catch (_: SocketTimeoutException) {
+                logger.debug { "Request timed out: $address" }
                 throw NoResponseError("Request timed out: $address")
             }
         } catch (_: URISyntaxException) {
@@ -273,9 +278,13 @@ private fun readLimitedText(reader: Reader, maxSize: Int): String {
 
     while (true) {
         val read = reader.read(buffer)
-        if (read == -1) break
+        if (read == -1) {
+            break
+        }
         total += read
-        if (total > maxSize) throw InvalidGeminiResponse("Response too large (limit: $maxSize bytes)")
+        if (total > maxSize) {
+            throw InvalidGeminiResponse("Response too large (limit: $maxSize bytes)")
+        }
         builder.append(buffer, 0, read)
     }
 
@@ -289,9 +298,13 @@ private fun readLimitedBytes(input: InputStream, maxSize: Int): ByteArray {
 
     while (true) {
         val read = input.read(buffer)
-        if (read == -1) break
+        if (read == -1) {
+            break
+        }
         total += read
-        if (total > maxSize) throw InvalidGeminiResponse("Binary response too large (limit: $maxSize bytes)")
+        if (total > maxSize) {
+            throw InvalidGeminiResponse("Binary response too large (limit: $maxSize bytes)")
+        }
         output.write(buffer, 0, read)
     }
 
