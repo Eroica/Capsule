@@ -3,13 +3,22 @@ PROJECT(gemicom)
 
 SET(PARSER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../parser)
 
+FIND_PACKAGE(BISON REQUIRED)
+FIND_PACKAGE(FLEX REQUIRED)
+
+BISON_TARGET(GemtextParser ${PARSER_DIR}/gemtext.y ${CMAKE_CURRENT_BINARY_DIR}/gemtext.tab.c)
+FLEX_TARGET(GemtextLexer ${PARSER_DIR}/gemtext.l ${CMAKE_CURRENT_BINARY_DIR}/lex.yy.c)
+ADD_FLEX_BISON_DEPENDENCY(GemtextLexer GemtextParser)
+
 ADD_LIBRARY(
     gemicom
     SHARED
     ${PARSER_DIR}/gemicom.cpp
-    ${PARSER_DIR}/gemtext.tab.c
-    ${PARSER_DIR}/lex.yy.c
+    ${BISON_GemtextParser_OUTPUTS}
+    ${FLEX_GemtextLexer_OUTPUTS}
 )
+
+TARGET_INCLUDE_DIRECTORIES(gemicom PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 FIND_LIBRARY(log-lib log)
 TARGET_LINK_LIBRARIES(gemicom ${log-lib})
