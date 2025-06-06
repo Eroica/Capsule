@@ -19,6 +19,24 @@ There are also some restrictions which cannot be configured currently:
 * Maximum response size: 10 MiB
 * Request timeout: 60s
 
+## Development
+
+```
+Gemicom
+├───android  ; Android app
+├───docs     ; Stuff for this README/upcoming website
+├───jniLibs  ; Location for SQLite *.so for Gemicom, see README inside
+└───parser   ; Bison/flex grammar for Gemini parser
+```
+
+Gemicom is built on a low-level Bison/Flex parser. This parser is wrapped in a "Gemicom library" (libgemicom.so for Android), and then called from the Android app.
+
+You need to run Bison/Flex once (see `Gemicom/parser/Makefile`) to build the parser. `make gemtext` creates a small command-line parser (just for testing), and `make jniLib` creates a JNI library which is required to run Gemicom's tests. However, for compiling the app itself, Android Studio/IntelliJ take care of building the JNI library.
+
+Another required dependency is SQLite. Gemicom does not use Android's built-in SQLite library, but [Xerial's driver](https://github.com/xerial/sqlite-jdbc) with an up-to-date SQLite implementation. You need to download these `.so` files, and put them into `Gemicom/jniLibs/`, see the README inside.
+
+You need to enable Android's NDK/CMake in Android Studio/IntelliJ.
+
 ## License
 
 The source code is published under the zlib license (see `LICENSE` file in this repository).
