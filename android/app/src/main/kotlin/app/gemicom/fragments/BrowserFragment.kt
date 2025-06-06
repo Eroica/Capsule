@@ -322,7 +322,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         }
 
         val clipBoard = requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        clipBoard.addListener(clipBoard)
+        clipBoard.addListener()
             .onEach { pasteButton().isEnabled = it.isNotBlank() }
             .launchIn(viewLifecycleOwner.lifecycleScope)
         pasteButton().setOnClickListener {

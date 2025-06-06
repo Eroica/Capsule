@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 
-
 class ViewRefs {
     private val views = mutableMapOf<Int, View>()
 
@@ -54,7 +53,7 @@ fun EditText.textChanges(): Flow<CharSequence?> = callbackFlow {
     awaitClose { removeTextChangedListener(watcher) }
 }
 
-fun ClipboardManager.addListener(clipboard: ClipboardManager): Flow<String> = callbackFlow {
+fun ClipboardManager.addListener(): Flow<String> = callbackFlow {
     val listener = ClipboardManager.OnPrimaryClipChangedListener {
         trySend(content())
     }

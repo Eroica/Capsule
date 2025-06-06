@@ -117,7 +117,7 @@ class Db private constructor(
 
     init {
         when (connection.getVersion()) {
-            0 -> initialize()
+            DB_INITIAL_VERSION -> initialize()
         }
     }
 
@@ -195,6 +195,6 @@ private fun Connection.getVersion(): Int {
 
 private fun Connection.setVersion(version: Int) {
     createStatement().use {
-        it.executeUpdate("""PRAGMA user_version = $version;""")
+        it.executeUpdate("""PRAGMA user_version = $version""")
     }
 }

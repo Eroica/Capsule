@@ -138,7 +138,7 @@ class GeminiAdapter(
     private fun bindAnchorBlock(view: View, block: AnchorBlock) {
         view.findViewById<TextView>(R.id.gemtext).apply {
             val typedValue = TypedValue()
-            val primaryColor = view.context.theme.resolveAttribute(
+            view.context.theme.resolveAttribute(
                 androidx.appcompat.R.attr.colorPrimary,
                 typedValue,
                 true
