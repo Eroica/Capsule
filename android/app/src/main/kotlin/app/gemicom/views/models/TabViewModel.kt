@@ -26,6 +26,9 @@ class ScopedTab(var tab: ITab) : AutoCloseable, DIGlobalAware {
     val currentLocation: String
         get() = tab.currentLocation
 
+    val status: TabStatus
+        get() = tab.status
+
     override fun close() {
         client.close()
     }
