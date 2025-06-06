@@ -7,7 +7,7 @@ extern "C" {
 	#include "gemtext.tab.h"
 }
 
-#define LOG_TAG "Capsule"
+#define LOG_TAG "Gemicom"
 
 typedef struct {
 	const char *type;
