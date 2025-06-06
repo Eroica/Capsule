@@ -98,7 +98,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
 
             is NoResponseError -> geminiView().show(EmptyGeminiDocument)
 
-            is InvalidDocument -> geminiView().show(InvalidGeminiDocument)
+            InvalidDocument -> geminiView().show(InvalidGeminiDocument)
 
             NoMoreHistory -> {
                 viewLifecycleOwner.lifecycleScope.launch {

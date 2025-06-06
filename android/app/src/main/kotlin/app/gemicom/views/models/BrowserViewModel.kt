@@ -47,18 +47,8 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
     }
 
     suspend fun start() = withContext(Writer) {
-        currentTab.value?.let { scopedTab ->
-            when (val tab = scopedTab.tab) {
-                is SqlTab -> {
-                    when (tab.status) {
-                        TabStatus.BLANK -> _document.postValue(EmptyGeminiDocument)
-                        TabStatus.VALID -> _document.postValue(scopedTab.load(scopedTab.currentLocation, false))
-                        TabStatus.INVALID -> _document.postValue(InvalidGeminiDocument)
-                    }
-                }
-
-                else -> _document.postValue(EmptyGeminiDocument)
-            }
+        currentTab.value?.let {
+            show(it)
         }
     }
 
@@ -111,39 +101,40 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
     }
 
     suspend fun select(id: Long) = withContext(Writer) {
+        /** @since 2025-06-06 If current tab is selected, no need to do anything */
+        if (id == _currentTab.value?.id) {
+            return@withContext
+        }
+
         _tabs.value.orEmpty().firstOrNull { it.tab.id == id }?.let { scopedTab ->
             _currentTab.postValue(scopedTab)
             _currentUrl.postValue(scopedTab.currentLocation)
-            when (scopedTab.tab) {
-                is SqlTab -> navigate(scopedTab.currentLocation, pushToHistory = false)
-                is UninitializedTab -> _document.postValue(EmptyGeminiDocument)
-            }
+            show(scopedTab)
         }
     }
 
-    /* "tab" is the tab that was swiped, try to find the "next", or create a new one */
+    /* "id" is the tab that was swiped, try to find the "next", or create a new one */
     suspend fun selectNext(id: Long) = withContext(Writer) {
         val index = _tabs.value.orEmpty().indexOfFirst { it.tab.id == id }
+        val currentTabId = _currentTab.value?.id
 
         if (index != -1) {
             val updatedTabs = _tabs.value.orEmpty().toMutableList()
             updatedTabs.removeAt(index)
+            _tabs.postValue(updatedTabs)
 
             if (updatedTabs.isEmpty()) {
                 reset()
-            } else {
+            } else if (id == currentTabId) {
                 val nextTab = if (index == 0) {
                     updatedTabs[0]
                 } else {
                     updatedTabs[index - 1]
                 }
 
-                _currentTab.postValue(nextTab)
-                if (nextTab.currentLocation.isNotBlank()) {
-                    navigate(nextTab.currentLocation, pushToHistory = false)
-                }
-                _tabs.postValue(updatedTabs)
+                select(nextTab.id)
             }
+
         } else {
             reset()
         }
@@ -165,5 +156,13 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
 
     suspend fun updateCertificate(host: String, hash: String) = withContext(Writer) {
         Certificates.replace(host, hash)
+    }
+
+    private suspend fun show(tab: ScopedTab) {
+        when (tab.status) {
+            TabStatus.BLANK -> _document.postValue(EmptyGeminiDocument)
+            TabStatus.VALID -> _document.postValue(tab.load(tab.currentLocation, false))
+            TabStatus.INVALID -> _document.postValue(InvalidGeminiDocument)
+        }
     }
 }
