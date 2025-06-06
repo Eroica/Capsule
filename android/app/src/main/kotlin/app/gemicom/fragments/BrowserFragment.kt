@@ -33,6 +33,7 @@ import coil.load
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import org.kodein.di.conf.DIGlobalAware
 import org.kodein.di.instance
 
@@ -323,11 +324,13 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
 
         val clipBoard = requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         clipBoard.addListener()
+            .onStart { emit(clipBoard.content()) }
             .onEach { pasteButton().isEnabled = it.isNotBlank() }
             .launchIn(viewLifecycleOwner.lifecycleScope)
         pasteButton().setOnClickListener {
             co.launch { viewModel.navigate(clipBoard.content()) }
         }
+
         parentFragmentManager.setFragmentResultListener(
             SettingsFragment.RESULT_SETTINGS,
             viewLifecycleOwner
