@@ -63,9 +63,9 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
     }
 
     suspend fun restart() = withContext(Writer) {
-        val tab = Tabs.new()
-        _tabs.postValue(listOf(ScopedTab(tab)))
-        _currentTab.postValue(ScopedTab(tab))
+        val tab = ScopedTab(Tabs.new())
+        _tabs.postValue(listOf(tab))
+        _currentTab.postValue(tab)
         _currentUrl.postValue("")
     }
 
