@@ -46,9 +46,20 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
         }
     }
 
-    suspend fun start() = withContext(Writer) {
+    suspend fun load() = withContext(Writer) {
         currentTab.value?.let {
             show(it)
+        }
+    }
+
+    suspend fun start(address: String) {
+        /* Whatever comes from here, act as if gemini:// was prepended to it */
+        _currentTab.value?.let {
+            if (address.startsWith("gemini://")) {
+                navigate(address, pushToHistory = true, isCheckCache = false)
+            } else {
+                navigate("gemini://$address", pushToHistory = true, isCheckCache = false)
+            }
         }
     }
 

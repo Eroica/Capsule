@@ -164,7 +164,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
             setupActionListeners()
             setupObservers()
             setupAddressBarTransition()
-            viewModel.start()
+            viewModel.load()
         }
     }
 
@@ -247,7 +247,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
 
     private fun onStartNavigation() {
         addressBar().setText(addressBar().text.trim())
-        co.launch { viewModel.navigate(addressBar().text.toString(), isCheckCache = false) }
+        co.launch { viewModel.start(addressBar().text.toString()) }
     }
 
     private fun setupMenu() {
