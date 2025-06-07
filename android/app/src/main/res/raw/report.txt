@@ -142,13 +142,13 @@ https://developer.android.com/jetpack/androidx/releases/annotation#1.8.1
 file comparators, endian transformation classes, and much more.
           https://commons.apache.org/proper/commons-io/
 
-AppCompat (1.7.0) - The Apache Software License, Version 2.0
+AppCompat (1.7.1) - The Apache Software License, Version 2.0
 Provides backwards-compatible implementations of UI-related Android SDK functionality, including dark mode and Material theming.
-https://developer.android.com/jetpack/androidx/releases/appcompat#1.7.0
+https://developer.android.com/jetpack/androidx/releases/appcompat#1.7.1
 
-AppCompat Resources (1.7.0) - The Apache Software License, Version 2.0
+AppCompat Resources (1.7.1) - The Apache Software License, Version 2.0
 Provides backward-compatible implementations of resource-related Android SDKfunctionality, including color state list theming.
-https://developer.android.com/jetpack/androidx/releases/appcompat#1.7.0
+https://developer.android.com/jetpack/androidx/releases/appcompat#1.7.1
 
 coil (2.7.0) - The Apache License, Version 2.0
 An image loading library for Android backed by Kotlin Coroutines.
@@ -188,13 +188,13 @@ Experimental annotation (1.4.1) - The Apache Software License, Version 2.0
 Java annotation for use on unstable Android API surfaces. When used in conjunction with the Experimental annotation lint checks, this annotation provides functional parity with Kotlin's Experimental annotation.
 https://developer.android.com/jetpack/androidx/releases/annotation#1.4.1
 
-fragment (1.8.7) - The Apache Software License, Version 2.0
+fragment (1.8.8) - The Apache Software License, Version 2.0
 The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren't a part of the framework APIs. Compatible on devices running API 14 or later.
-https://developer.android.com/jetpack/androidx/releases/fragment#1.8.7
+https://developer.android.com/jetpack/androidx/releases/fragment#1.8.8
 
-Fragment Kotlin Extensions (1.8.7) - The Apache Software License, Version 2.0
+Fragment Kotlin Extensions (1.8.8) - The Apache Software License, Version 2.0
 Kotlin extensions for 'fragment' artifact
-https://developer.android.com/jetpack/androidx/releases/fragment#1.8.7
+https://developer.android.com/jetpack/androidx/releases/fragment#1.8.8
 
       Guava ListenableFuture only (1.0) - The Apache Software License, Version 2.0
       Contains Guava's com.google.common.util.concurrent.ListenableFuture class,
