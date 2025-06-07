@@ -21,24 +21,16 @@ interface IImagePool {
 @JvmInline
 value class GeminiUri(val uri: String) {
     companion object {
-        private val schemeRegex = Regex("^[a-zA-Z][a-zA-Z0-9+.-]*://")
-
         fun fromAddress(address: String): GeminiUri {
+            val uri = try {
+                URI.create(address)
+            } catch (_: Exception) {
+                throw InvalidGeminiUri(address)
+            }
+
             when {
-                address.startsWith("gemini://") -> {
-                    val uri = try {
-                        URI(address)
-                    } catch (_: Exception) {
-                        throw InvalidGeminiUri(address)
-                    }
-
-                    if (uri.host.isNullOrEmpty()) {
-                        throw InvalidGeminiUri(address)
-                    }
-                }
-
-                address.isBlank() -> throw InvalidGeminiUri(address)
-                schemeRegex.containsMatchIn(address) -> throw InvalidGeminiUri(address)
+                !uri.scheme.isNullOrBlank() && uri.scheme != "gemini" -> throw InvalidGeminiUri(address)
+                !uri.scheme.isNullOrBlank() && uri.host.isNullOrBlank() -> throw InvalidGeminiUri(address)
                 address.startsWith("//") -> throw InvalidGeminiUri(address)
             }
 
