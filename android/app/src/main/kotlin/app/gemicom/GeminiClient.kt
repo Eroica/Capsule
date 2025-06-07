@@ -44,6 +44,7 @@ class CertificateMismatchError(
     val host: String,
     val newHash: String
 ) : CertificateException("Certificate fingerprint mismatch for $host")
+class RequestRefusedError(message: String) : Exception(message)
 
 interface IGeminiClient {
     fun get(uri: String, isCheckCache: Boolean = false): String
@@ -99,6 +100,7 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
             11 -> throw SensitiveInputRequired(uri, meta)
             in 12..19 -> throw InputRequired(uri, meta)
             in 30..39 -> redirectTo(meta)
+            53 -> throw RequestRefusedError(meta)
             !in 20..29 -> {
                 logger.debug { "Server responded with non-success: $status" }
                 throw InvalidGeminiResponse("Server responded with non-success: $status")

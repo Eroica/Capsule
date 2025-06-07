@@ -11,6 +11,7 @@
 	<string name="browser_menu_back">Back</string>
 	<string name="browser_exit_press">Press back again to close Gemicom</string>
 	<string name="browser_error_invalid_url">Cannot request invalid Gemini URL</string>
+	<string name="browser_error_refused">The server refused the request</string>
 	<string name="browser_error_too_many_redirects">Stopping after 5 redirects</string>
 	<string name="browser_100_tabs">99+</string>
 	<string name="browser_hint_enter_address">Enter address</string>

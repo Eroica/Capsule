@@ -99,6 +99,15 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
 
             is NoResponseError -> geminiView().show(EmptyGeminiDocument)
 
+            is RequestRefusedError -> {
+                geminiView().show(InvalidGeminiDocument)
+                Toast.makeText(
+                    context,
+                    getString(R.string.browser_error_refused),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             InvalidDocument -> geminiView().show(InvalidGeminiDocument)
 
             NoMoreHistory -> {
