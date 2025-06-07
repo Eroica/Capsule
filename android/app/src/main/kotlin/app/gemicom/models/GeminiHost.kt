@@ -18,15 +18,22 @@ class GeminiHost private constructor(var uri: URI) {
 
         fun fromAddress(address: String): GeminiHost {
             try {
-                val uri = URI.create(address)
+                /**
+                 * @since 2025-06-07
+                 * URI on Android doesn't resolve relative paths correctly if the host does not end
+                 * on /. Always append a trailing slash.
+                 */
+                val normalizedAddress = if (address.endsWith("/")) address else "$address/"
+
+                val uri = URI.create(normalizedAddress)
 
                 /* Check whether another scheme was accidentally used */
-                if (!address.startsWith(GEMINI_SCHEME)) {
-                    return fromAddress("$GEMINI_SCHEME$address")
+                if (!normalizedAddress.startsWith(GEMINI_SCHEME)) {
+                    return fromAddress("$GEMINI_SCHEME$normalizedAddress")
                 } else if (uri.scheme != "gemini") {
-                    throw InvalidHostError(address)
+                    throw InvalidHostError(normalizedAddress)
                 } else if (uri.host == null) {
-                    throw InvalidHostError(address)
+                    throw InvalidHostError(normalizedAddress)
                 }
 
                 return GeminiHost(uri)
