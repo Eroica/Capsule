@@ -132,8 +132,8 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
                 context.init(null, arrayOf(TofuTrustManager(host, certificates)), null)
 
                 (context.socketFactory.createSocket(host, port) as SSLSocket).use { socket ->
-                    socket.startHandshake()
                     socket.soTimeout = MAX_REQUEST_TIME
+                    socket.startHandshake()
 
                     socket.outputStream.bufferedWriter(Charsets.UTF_8).apply {
                         write(address)
