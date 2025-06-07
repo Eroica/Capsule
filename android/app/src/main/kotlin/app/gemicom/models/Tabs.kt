@@ -30,6 +30,11 @@ sealed interface ITab {
     val history: List<String>
     val createdAt: LocalDateTime
     var status: TabStatus
+
+    fun peekPrevious(): String
+    fun peekNext(): String
+    fun back()
+    fun forward()
 }
 
 interface ITabs {
@@ -47,6 +52,22 @@ class UninitializedTab(
     override val currentLocation = ""
     override val history = listOf<String>()
     override var status = TabStatus.BLANK
+
+    override fun peekPrevious(): String {
+        throw NoMoreHistory
+    }
+
+    override fun peekNext(): String {
+        throw NoNextEntry
+    }
+
+    override fun back() {
+        throw NoMoreHistory
+    }
+
+    override fun forward() {
+        throw NoNextEntry
+    }
 
     fun start(address: String): SqlTab {
         val host = GeminiHost.fromAddress(address)
@@ -95,7 +116,7 @@ class SqlTab(
         currentIndex = history.size - 1
     }
 
-    fun peekPrevious(): String {
+    override fun peekPrevious(): String {
         try {
             return history[currentIndex - 1]
         } catch (_: IndexOutOfBoundsException) {
@@ -103,7 +124,7 @@ class SqlTab(
         }
     }
 
-    fun peekNext(): String {
+    override fun peekNext(): String {
         try {
             return history[currentIndex + 1]
         } catch (_: IndexOutOfBoundsException) {
@@ -111,7 +132,7 @@ class SqlTab(
         }
     }
 
-    fun back() {
+    override fun back() {
         if (canGoBack()) {
             navigate(history[--currentIndex], false)
         } else {
@@ -119,7 +140,7 @@ class SqlTab(
         }
     }
 
-    fun forward() {
+    override fun forward() {
         if (canGoForward()) {
             navigate(history[++currentIndex], false)
         } else {

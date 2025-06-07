@@ -65,29 +65,15 @@ class ScopedTab(var tab: ITab) : AutoCloseable, DIGlobalAware {
     }
 
     suspend fun back(): IGeminiDocument {
-        return when (val tab = tab) {
-            is SqlTab -> {
-                val previous = tab.peekPrevious()
-                tab.back()
-                val document = load(previous, true)
-                document
-            }
-
-            else -> throw NoMoreHistory
-        }
+        val previous = tab.peekPrevious()
+        tab.back()
+        return load(previous, true)
     }
 
     suspend fun forward(): IGeminiDocument {
-        return when (val tab = tab) {
-            is SqlTab -> {
-                val next = tab.peekNext()
-                tab.forward()
-                val document = load(next, true)
-                document
-            }
-
-            else -> throw NoNextEntry
-        }
+        val next = tab.peekNext()
+        tab.forward()
+        return load(next, true)
     }
 
     fun canGoBack(): Boolean = when (val tab = tab) {
