@@ -115,8 +115,7 @@
 							android:layout_marginStart="8dp"
 							android:layout_weight="1"
 							android:gravity="end"
-							android:text="@string/author_link"
-							tools:text="Eroica" />
+							android:text="@string/author_link" />
 					</LinearLayout>
 
 					<com.google.android.material.divider.MaterialDivider

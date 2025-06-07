@@ -1,8 +1,5 @@
 <resources>
 	<string name="app_name">Gemicom</string>
-	<string name="gemicom_link"><a href="https://gemicom.app">https://gemicom.app</a></string>
-	<string name="author_link"><a href="https://groundctrl.earth">Eroica</a></string>
-	<string name="groundctrl_label_link"><a href="https://groundctrl.earth">GROUNDCTRL</a></string>
 
 	<string name="main_menu_about">About</string>
 	<string name="main_menu_settings">Settings</string>
@@ -69,6 +66,8 @@
 	<string name="about_label_author">Author</string>
 	<string name="about_label_copyright">Copyright</string>
 	<string name="about_label_copyright_value">© 2025, All rights reserved</string>
+	<string name="gemicom_link"><a href="https://gemicom.app">https://gemicom.app</a></string>
+	<string name="author_link"><a href="https://groundctrl.earth">Eroica</a></string>
 
 	<string name="alt_gemicom_logo">Gemicom’s logo</string>
 	<string name="alt_clear_address_bar">Clear address bar button</string>
