@@ -17,6 +17,7 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
     private val Certificates: ICertificates by instance()
     private val Dispatcher: CoroutineDispatcher by instance()
     private val Writer: CoroutineDispatcher by instance(tag = "WRITER")
+    private val AppSettings: IPreferences by instance(tag = "AppSettings")
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -37,7 +38,8 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
         val tabs = Tabs.all().map { ScopedTab(it) }
 
         if (tabs.isNotEmpty()) {
-            val lastTab = tabs.last()
+            val lastTabId = AppSettings["selectedTab"]?.toLong() ?: tabs.last().id
+            val lastTab = tabs.first { it.id == lastTabId }
             _tabs.postValue(tabs)
             _currentTab.postValue(lastTab)
             _currentUrl.postValue(lastTab.currentLocation)
@@ -118,6 +120,7 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
         }
 
         _tabs.value.orEmpty().firstOrNull { it.id == id }?.let { scopedTab ->
+            AppSettings["selectedTab"] = scopedTab.id.toString()
             _currentTab.postValue(scopedTab)
             _currentUrl.postValue(scopedTab.currentLocation)
             show(scopedTab)
