@@ -24,7 +24,7 @@ private fun testAppModule(db: IDb) = DI.Module("App") {
     bindSingleton { SqlCertificates(instance()) }
 }
 
-class ScopedTabTest {
+internal class ScopedTabTest {
     companion object {
         private lateinit var db: IDb
         private lateinit var tabs: SqlTabs

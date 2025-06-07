@@ -9,7 +9,7 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
-class PreferencesTest {
+internal class PreferencesTest {
     companion object {
         private lateinit var db: IDb
         private lateinit var preferences: IPreferences

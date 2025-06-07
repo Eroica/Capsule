@@ -3,7 +3,7 @@ package app.gemicom.platform
 import app.gemicom.InvalidGeminiUri
 import org.junit.Test
 
-class GeminiUriTest {
+internal class GeminiUriTest {
     @Test
     fun `Valid GeminiUri`() {
         GeminiUri.fromAddress("gemini://example.com")

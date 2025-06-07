@@ -10,7 +10,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.sqlite.SQLiteException
 
-class CertificatesTest {
+internal class CertificatesTest {
     companion object {
         private lateinit var db: IDb
         private lateinit var certificates: ICertificates

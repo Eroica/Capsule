@@ -5,7 +5,7 @@ import org.junit.Assert.assertArrayEquals
 import org.junit.BeforeClass
 import org.junit.Test
 
-class GeminiTest {
+internal class GeminiTest {
     companion object {
         @BeforeClass
         @JvmStatic

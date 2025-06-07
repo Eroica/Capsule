@@ -12,7 +12,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import java.time.LocalDateTime
 
-class DocumentTest {
+internal class DocumentTest {
     companion object {
         private lateinit var db: IDb
         private lateinit var documents: IDocuments

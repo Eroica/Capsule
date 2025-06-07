@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
-class GeminiClientTest {
+internal class GeminiClientTest {
     companion object {
         private lateinit var db: IDb
         private lateinit var client: GeminiClient

@@ -11,7 +11,7 @@ import org.junit.Test
 
 private const val SAMPLE_URI = "gemini://gemicom.app"
 
-class TabsTest {
+internal class TabsTest {
     companion object {
         private lateinit var db: IDb
         private lateinit var tabs: SqlTabs

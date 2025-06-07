@@ -3,7 +3,7 @@ package app.gemicom.models
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
-class GeminiHostTest {
+internal class GeminiHostTest {
     @Test
     fun `Test valid GeminiHost`() {
         GeminiHost.fromAddress("localhost")

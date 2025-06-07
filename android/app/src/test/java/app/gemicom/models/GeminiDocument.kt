@@ -4,7 +4,7 @@ import junit.framework.TestCase.assertEquals
 import org.junit.BeforeClass
 import org.junit.Test
 
-class GeminiDocumentTest {
+internal class GeminiDocumentTest {
     companion object {
         @BeforeClass
         @JvmStatic
