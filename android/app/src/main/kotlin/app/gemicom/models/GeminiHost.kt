@@ -29,7 +29,16 @@ class GeminiHost private constructor(var uri: URI) {
                     throw InvalidHostError(address)
                 }
 
-                return GeminiHost(uri)
+                /**
+                 * @since 2025-06-07
+                 * URI on Android doesn't resolve relative paths correctly if the host does not end
+                 * on /. Always append a trailing slash if there is no other path.
+                 */
+                return if (uri.path.isNullOrBlank()) {
+                    GeminiHost(uri.resolve("/"))
+                } else {
+                    GeminiHost(uri)
+                }
             } catch (_: Exception) {
                 throw InvalidHostError(address)
             }

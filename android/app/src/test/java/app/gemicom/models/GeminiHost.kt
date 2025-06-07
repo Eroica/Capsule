@@ -22,7 +22,7 @@ internal class GeminiHostTest {
     @Test
     fun `Test mutating GeminiHost`() {
         val host = GeminiHost.fromAddress("example.com")
-        assertEquals("gemini://example.com", host.location)
+        assertEquals("gemini://example.com/", host.location)
 
         assertEquals("gemini://example.com/page", host.resolve("page"))
         assertEquals("gemini://example.com/page", host.resolve("//page"))
@@ -53,5 +53,12 @@ internal class GeminiHostTest {
         assertEquals("gemini://example.com/example2.com/image", host.resolve("example2.com/image"))
         assertEquals("http://example2.com/image", host.resolve("http://example2.com/image"))
         assertEquals("gemini://example.com/kirby.png", host.resolve("/kirby.png"))
+    }
+
+    @Test
+    fun `Test don't append trailing slash to existing path`() {
+        assertEquals("gemini://example.com/", GeminiHost.fromAddress("example.com").location)
+        assertEquals("gemini://example.com/faq.gmi", GeminiHost.fromAddress("example.com/faq.gmi").location)
+        assertEquals("gemini://example.com/faq.gmi/", GeminiHost.fromAddress("example.com/faq.gmi/").location)
     }
 }

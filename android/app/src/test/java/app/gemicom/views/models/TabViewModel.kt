@@ -35,8 +35,8 @@ internal class ScopedTabTest {
             System.loadLibrary("gemicom")
             db = Db.memory(TESTS_APP_DIR)
             db.update("""DELETE FROM tab""")
-            tabs = SqlTabs(db)
             DI.global.addImport(testAppModule(db))
+            tabs = SqlTabs(db)
         }
 
         @AfterClass
@@ -54,7 +54,7 @@ internal class ScopedTabTest {
     @Test
     fun `Test initial navigate`() = runTest {
         val scopedTab = ScopedTab(tabs.new())
-        scopedTab.navigate("gemicom.app")
-        assertEquals("gemini://gemicom.app", scopedTab.currentLocation)
+        scopedTab.navigate("gemicom.app/")
+        assertEquals("gemini://gemicom.app/", scopedTab.currentLocation)
     }
 }
