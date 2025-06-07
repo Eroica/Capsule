@@ -61,4 +61,12 @@ internal class GeminiHostTest {
         assertEquals("gemini://example.com/faq.gmi", GeminiHost.fromAddress("example.com/faq.gmi").location)
         assertEquals("gemini://example.com/faq.gmi/", GeminiHost.fromAddress("example.com/faq.gmi/").location)
     }
+
+    @Test
+    fun `Test navigating to new address`() {
+        val host = GeminiHost.fromAddress("example.com")
+        assertEquals("gemini://example.com/example", host.navigate("example"))
+        assertEquals("gemini://gemicom.app/", host.navigate("gemini://gemicom.app"))
+        assertEquals("gemini://gemicom.app/test/index.gmi", host.navigate("test/index.gmi"))
+    }
 }

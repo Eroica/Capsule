@@ -61,7 +61,7 @@ class GeminiHost private constructor(var uri: URI) {
     /* Resolves "reference" and updates current state */
     fun navigate(reference: String): String {
         val newLocation = resolve(reference)
-        uri = URI.create(newLocation)
+        uri = fromAddress(newLocation).uri
 
         return location
     }
