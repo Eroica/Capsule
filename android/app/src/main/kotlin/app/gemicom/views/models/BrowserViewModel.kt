@@ -73,7 +73,7 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
     suspend fun back() = withContext(Writer) {
         _currentTab.value?.let {
             try {
-                _document.postValue(it.back())
+                _document.postValue(it.load(it.back(), true))
             } finally {
                 _currentUrl.postValue(it.currentLocation)
             }
@@ -83,7 +83,7 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
     suspend fun forward() = withContext(Writer) {
         _currentTab.value?.let {
             try {
-                _document.postValue(it.forward())
+                _document.postValue(it.load(it.forward(), true))
             } finally {
                 _currentUrl.postValue(it.currentLocation)
             }
@@ -117,7 +117,7 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
             return@withContext
         }
 
-        _tabs.value.orEmpty().firstOrNull { it.tab.id == id }?.let { scopedTab ->
+        _tabs.value.orEmpty().firstOrNull { it.id == id }?.let { scopedTab ->
             _currentTab.postValue(scopedTab)
             _currentUrl.postValue(scopedTab.currentLocation)
             show(scopedTab)
@@ -126,7 +126,7 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
 
     /* "id" is the tab that was swiped, try to find the "next", or create a new one */
     suspend fun selectNext(id: Long) = withContext(Writer) {
-        val index = _tabs.value.orEmpty().indexOfFirst { it.tab.id == id }
+        val index = _tabs.value.orEmpty().indexOfFirst { it.id == id }
         val currentTabId = _currentTab.value?.id
 
         if (index != -1) {
@@ -169,7 +169,7 @@ class BrowserViewModel : ViewModel(), DIGlobalAware {
         Certificates.replace(host, hash)
     }
 
-    private suspend fun show(tab: ScopedTab) {
+    private fun show(tab: ScopedTab) {
         when (tab.status) {
             TabStatus.BLANK -> _document.postValue(EmptyGeminiDocument)
             TabStatus.VALID -> _document.postValue(tab.load(tab.currentLocation, false))

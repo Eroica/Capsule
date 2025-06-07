@@ -304,7 +304,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
             forwardItem.isEnabled = viewModel.currentTab.value?.canGoForward() ?: false
         }
         viewModel.currentUrl.observe(viewLifecycleOwner) {
-            refreshItem.isEnabled = viewModel.currentTab.value?.tab?.status != TabStatus.BLANK
+            refreshItem.isEnabled = viewModel.currentTab.value?.status != TabStatus.BLANK
         }
     }
 

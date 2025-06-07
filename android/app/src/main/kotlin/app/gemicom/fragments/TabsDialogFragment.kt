@@ -112,7 +112,7 @@ class TabsDialogFragment : AppCompatDialogFragment(),
         lifecycleScope.launch {
             viewModel.initialization.join()
             viewModel.tabs.observe(this@TabsDialogFragment) {
-                adapter.submitList(it.map { it.tab })
+                adapter.submitList(it)
             }
         }
     }

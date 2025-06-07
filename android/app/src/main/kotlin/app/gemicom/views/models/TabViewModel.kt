@@ -10,7 +10,7 @@ import org.kodein.di.instance
 import java.nio.file.Path
 import kotlin.coroutines.coroutineContext
 
-class ScopedTab(var tab: ITab) : AutoCloseable, DIGlobalAware {
+class ScopedTab(private val tab: ITab) : ITab by tab, AutoCloseable, DIGlobalAware {
     private val Db: IDb by instance()
     private val CacheDir: Path by instance(tag = "CACHE_DIR")
     private val Documents: IDocuments by instance()
@@ -21,68 +21,24 @@ class ScopedTab(var tab: ITab) : AutoCloseable, DIGlobalAware {
         CachableGeminiClient(cache, Documents, GeminiClient(Certificates))
     }
 
-    val id = tab.id
-
-    val currentLocation: String
-        get() = tab.currentLocation
-
-    val status: TabStatus
-        get() = tab.status
-
     override fun close() {
         client.close()
     }
 
-    fun resolve(address: String): String {
-        return when (val t = tab) {
-            is SqlTab -> t.resolve(address)
-            is UninitializedTab -> ""
-        }
-    }
-
-    suspend fun navigate(
+    fun navigate(
         address: String, pushToHistory: Boolean = true, isCheckCache: Boolean = true
     ): IGeminiDocument {
-        val uri = when (val t = tab) {
-            is SqlTab -> t.navigate(address, pushToHistory)
-            is UninitializedTab -> {
-                t.start(address).also { tab = it }.currentLocation
-            }
-        }
-
-        return load(uri, isCheckCache)
+        return load(tab.navigate(address, pushToHistory), isCheckCache)
     }
 
-    suspend fun load(uri: String, isCheckCache: Boolean = true) = withContext(coroutineContext) {
+    fun load(uri: String, isCheckCache: Boolean = true): IGeminiDocument {
         try {
             val content = client.get(uri, isCheckCache)
             tab.status = TabStatus.VALID
-            ChunkedGeminiDocument.fromText(currentLocation, content)
+            return ChunkedGeminiDocument.fromText(currentLocation, content)
         } catch (e: Exception) {
             tab.status = TabStatus.INVALID
             throw (e)
         }
-    }
-
-    suspend fun back(): IGeminiDocument {
-        val previous = tab.peekPrevious()
-        tab.back()
-        return load(previous, true)
-    }
-
-    suspend fun forward(): IGeminiDocument {
-        val next = tab.peekNext()
-        tab.forward()
-        return load(next, true)
-    }
-
-    fun canGoBack(): Boolean = when (val tab = tab) {
-        is SqlTab -> tab.canGoBack()
-        is UninitializedTab -> false
-    }
-
-    fun canGoForward(): Boolean = when (val tab = tab) {
-        is SqlTab -> tab.canGoForward()
-        is UninitializedTab -> false
     }
 }

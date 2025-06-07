@@ -9,8 +9,6 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
-private const val SAMPLE_URI = "gemini://gemicom.app"
-
 internal class TabsTest {
     companion object {
         private lateinit var db: IDb
@@ -46,22 +44,15 @@ internal class TabsTest {
     }
 
     @Test
-    fun `Create Tab with host`() {
-        val tab = tabs.new(SAMPLE_URI)
-        assertEquals(1, tab.history.size)
-        assertEquals("gemini://gemicom.app", tab.currentLocation)
-    }
-
-    @Test
     fun `Test initial navigate`() {
-        val tab = tabs.new() as UninitializedTab
-        assertEquals("gemini://gemicom.app", tab.start(SAMPLE_URI).currentLocation)
+        val tab = tabs.new()
+        assertEquals("gemini://gemicom.app/", tab.start("gemini://gemicom.app"))
     }
 
     @Test
     fun `Test creating history`() {
-        val newTab = tabs.new() as UninitializedTab
-        val tab = newTab.start(SAMPLE_URI)
+        val tab = tabs.new()
+        tab.start("gemini://gemicom.app")
 
         tab.navigate("/example")
         tab.navigate("image")
@@ -70,7 +61,7 @@ internal class TabsTest {
         assertEquals(4, tab.history.size)
         assertEquals(
             listOf(
-                SAMPLE_URI,
+                "gemini://gemicom.app/",
                 "gemini://gemicom.app/example",
                 "gemini://gemicom.app/image",
                 "gemini://gemicom.app/image/nested"
@@ -80,28 +71,30 @@ internal class TabsTest {
 
     @Test
     fun `Test create history once`() {
-        val newTab = tabs.new() as UninitializedTab
-        val tab = newTab.start("gemicom.app")
+        val tab = tabs.new()
+        tab.start("gemicom.app")
         tab.navigate(tab.resolve("/example2"))
         assertEquals(2, tab.history.size)
     }
 
     @Test(expected = NoNextEntry::class)
     fun `Test tab peeking at end`() {
-        val tab = tabs.new(SAMPLE_URI) as SqlTab
+        val tab = tabs.new()
+        tab.navigate("gemini://gemicom.app")
         tab.navigate("/example")
         tab.peekNext()
     }
 
     @Test(expected = NoMoreHistory::class)
     fun `Test tab peeking at beginning`() {
-        val tab = tabs.new(SAMPLE_URI) as SqlTab
+        val tab = tabs.new()
         tab.peekPrevious()
     }
 
     @Test
     fun `Test tab peeking`() {
-        val tab = tabs.new(SAMPLE_URI) as SqlTab
+        val tab = tabs.new()
+        tab.navigate("gemini://gemicom.app")
         tab.navigate("/example")
         tab.navigate("image")
         tab.navigate("/image/nested")
@@ -116,7 +109,8 @@ internal class TabsTest {
 
     @Test
     fun `Test moving back and navigating`() {
-        val tab = tabs.new(SAMPLE_URI) as SqlTab
+        val tab = tabs.new()
+        tab.navigate("gemini://gemicom.app")
         tab.navigate("/example")
         tab.navigate("image")
         tab.navigate("/image/nested")
@@ -126,7 +120,7 @@ internal class TabsTest {
         assertEquals(4, tab.history.size)
         assertEquals(
             listOf(
-                SAMPLE_URI,
+                "gemini://gemicom.app/",
                 "gemini://gemicom.app/example",
                 "gemini://gemicom.app/image",
                 "gemini://gemicom.app/new"
@@ -138,15 +132,21 @@ internal class TabsTest {
 
     @Test
     fun `Test start with hostname`() {
-        val newTab = tabs.new() as UninitializedTab
-        val tab = newTab.start("localhost")
+        val tab1 = tabs.new()
+        tab1.start("localhost")
 
-        assertEquals("gemini://localhost", tab.currentLocation)
+        assertEquals("gemini://localhost/", tab1.currentLocation)
+
+        val tab2 = tabs.new()
+        tab2.navigate("localhost")
+
+        assertEquals("gemini://localhost/", tab2.currentLocation)
     }
 
     @Test
     fun `Test navigating to same location does not push history`() {
-        val tab = tabs.new(SAMPLE_URI) as SqlTab
+        val tab = tabs.new()
+        tab.navigate("gemini://gemicom.app")
         tab.navigate("/example", true)
         tab.navigate("/example", true)
         assertEquals(2, tab.history.size)
