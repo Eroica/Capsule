@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:paddingHorizontal="16dp"
+	android:paddingVertical="16dp">
+
+	<TextView
+		android:id="@+id/message"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textAppearance="?textAppearanceBody1"
+		tools:text="Message from server:" />
+
+	<com.google.android.material.textfield.TextInputLayout
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		app:endIconMode="password_toggle">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/inputField"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<requestFocus />
+		</com.google.android.material.textfield.TextInputEditText>
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<Button
+		android:id="@+id/submitButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:layout_gravity="end"
+		android:text="@string/dialog_input_button_submit" />
+</LinearLayout>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<style name="Theme.Gemicom" parent="Theme.MaterialComponents.Light.NoActionBar">
+		<!-- MDC 2 colors -->
+		<item name="colorPrimary">#266EF0</item>
+		<item name="colorPrimaryVariant">#266EF0</item>
+		<item name="colorOnPrimary">#FAFAFA</item>
+		<item name="colorSecondary">#266EF0</item>
+		<item name="colorSecondaryVariant">#266EF0</item>
+		<item name="colorOnSecondary">#FAFAFA</item>
+		<item name="colorSurface">#FAFAFA</item>
+		<item name="colorOnSurface">@color/textColorSecondary</item>
+		<item name="android:colorBackground">#EFEFEF</item>
+		<item name="colorOnBackground">@color/textColorSecondary</item>
+		<item name="colorError">#F04439</item>
+		<item name="colorOnError">#FAFAFA</item>
+		<item name="android:statusBarColor">#000000</item>
+
+		<!-- These are still used to tint MaterialCheckBox, MaterialRadioButton, SwitchMaterial
+		     and MaterialToolbar icons. -->
+		<!--		<item name="colorControlNormal">#3875DC</item>-->
+		<!--		<item name="colorControlHighlight"></item>-->
+		<!--		<item name="colorControlActivated"></item>-->
+
+		<!-- Reduce strength of shadows -->
+		<!-- Common shadows
+			ambientShadowAlpha = 0.039
+			spotShadowAlpha = 0.19 -->
+		<item name="android:ambientShadowAlpha">0.1</item>
+		<item name="android:spotShadowAlpha">0.25</item>
+		<item name="android:outlineSpotShadowColor">#22000000</item>
+		<item name="android:outlineAmbientShadowColor">#22000000</item>
+
+		<item name="elevationOverlayEnabled">false</item>
+		<item name="android:fadeScrollbars">false</item>
+
+		<item name="android:textColorPrimary">@color/theme_text_color_primary</item>
+
+		<item name="textAppearanceHeadline4">@style/Gemicom.Text.H1</item>
+		<item name="textAppearanceHeadline5">@style/Gemicom.Text.H2</item>
+		<item name="textAppearanceHeadline6">@style/Gemicom.Text.H3</item>
+
+		<item name="textAppearanceButton">@style/Gemicom.Text.Button</item>
+		<item name="switchStyle">@style/Widget.App.Switch</item>
+		<item name="appBarLayoutStyle">@style/Widget.AppBar</item>
+		<item name="toolbarStyle">@style/Widget.BottomToolbar</item>
+		<item name="nestedScrollViewStyle">@style/Widget.NestedScrollView</item>
+		<item name="checkboxStyle">@style/Widget.CheckBox</item>
+		<!--		<item name="materialCardViewStyle">@style/Widget.Card</item>-->
+	</style>
+
+	<style name="Widget.NestedScrollView" parent="">
+		<item name="android:scrollbars">vertical</item>
+	</style>
+
+	<style name="Widget.Card" parent="Widget.MaterialComponents.CardView"></style>
+
+	<style name="Widget.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+		<!-- Fix for CheckBoxes having different default color -->
+		<item name="android:textColor">?android:textColorPrimary</item>
+		<!-- Fix to match spacing -->
+		<item name="android:letterSpacing">0.0178571429</item>
+	</style>
+
+	<style name="Gemicom.Text.Button" parent="TextAppearance.MaterialComponents.Button">
+		<item name="android:textAllCaps">false</item>
+		<item name="android:textSize">14sp</item>
+		<item name="android:letterSpacing">0.0178571429</item>
+	</style>
+
+	<style name="Gemicom.Text.H1" parent="TextAppearance.MaterialComponents.Headline4">
+		<item name="android:textColor">@color/textColorPrimary</item>
+	</style>
+
+	<style name="Gemicom.Text.H2" parent="TextAppearance.MaterialComponents.Headline5">
+		<item name="android:textColor">@color/textColorPrimary</item>
+	</style>
+
+	<style name="Gemicom.Text.H3" parent="TextAppearance.MaterialComponents.Headline6">
+		<item name="android:textColor">@color/textColorPrimary</item>
+	</style>
+
+	<style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
+		<item name="iconPadding">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="android:paddingLeft">12dp</item>
+		<item name="android:paddingRight">12dp</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">48dp</item>
+		<item name="strokeWidth">0dp</item>
+		<item name="iconTint">?colorControlNormal</item>
+	</style>
+
+	<style name="Widget.AppBar" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+		<item name="android:background">@drawable/theme_bg_app_bar</item>
+		<item name="android:outlineSpotShadowColor">#66000000</item>
+		<item name="elevation">16dp</item>
+	</style>
+
+	<style name="Widget.AppBarBottom" parent="Widget.MaterialComponents.AppBarLayout.Surface">
+		<item name="android:background">@drawable/theme_bg_bottom_bar</item>
+	</style>
+
+	<style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+		<item name="useMaterialThemeColors">false</item>
+		<item name="track">@drawable/widget_switch_track</item>
+		<item name="android:thumb">@drawable/widget_switch_thumb</item>
+	</style>
+
+	<style name="Widget.BottomToolbar" parent="Widget.MaterialComponents.Toolbar">
+		<item name="titleMargin">0dp</item>
+		<item name="contentInsetStart">0dp</item>
+		<item name="android:paddingLeft">0dp</item>
+		<item name="android:paddingStart">0dp</item>
+		<item name="android:paddingRight">0dp</item>
+		<item name="android:paddingEnd">0dp</item>
+		<item name="android:paddingTop">0dp</item>
+		<item name="android:paddingBottom">0dp</item>
+	</style>
+
+	<style name="Widget.Pre" parent="">
+		<item name="android:textColor">#6E6E6E</item>
+		<item name="android:fontFamily">monospace</item>
+		<item name="android:lineSpacingExtra">2dp</item>
+	</style>
+</resources>

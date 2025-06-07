@@ -1,0 +1,70 @@
+<resources>
+	<string name="app_name">Gemicom</string>
+	<string name="gemicom_link"><a href="https://gemicom.app">https://gemicom.app</a></string>
+	<string name="author_link"><a href="https://groundctrl.earth">Eroica</a></string>
+	<string name="groundctrl_label_link"><a href="https://groundctrl.earth">GROUNDCTRL</a></string>
+
+	<string name="main_menu_about">About</string>
+	<string name="main_menu_settings">Settings</string>
+	<string name="browser_menu_refresh">Refresh</string>
+	<string name="browser_menu_forward">Forward</string>
+	<string name="browser_menu_back">Back</string>
+	<string name="browser_exit_press">Press back again to close Gemicom</string>
+	<string name="browser_error_invalid_url">Cannot request invalid Gemini URL</string>
+	<string name="browser_error_too_many_redirects">Stopping after 5 redirects</string>
+	<string name="browser_100_tabs">99+</string>
+	<string name="browser_hint_enter_address">Enter address</string>
+	<string name="browser_load_image_error">Could not retrieve image</string>
+	<string name="browser_toast_set_home">Set a home capsule in Gemicom’s settings</string>
+	<string name="browser_menu_home">Home</string>
+
+	<string name="dialog_tabs_title">Tabs</string>
+	<string name="dialog_tabs_button_close_all">Close all</string>
+	<string name="dialog_tabs_button_new">New tab</string>
+	<string name="dialog_tabs_tab_position">Tab %1$d</string>
+	<string name="dialog_tabs_blank_tab">Blank tab</string>
+
+	<string name="dialog_title_input">Input required</string>
+	<string name="dialog_input_button_submit">Submit</string>
+
+	<string name="dialog_security_issue_title">WARNING: Security issue</string>
+	<string name="dialog_security_issue_explanation"><![CDATA[
+<p>Gemini pages are based on <a href="https://en.wikipedia.org/wiki/Trust_on_first_use">Trust on first use (Wikipedia)</a>.</p>
+<p>You first visited <i>%1$s</i> on %2$s.</p>
+<p><b>The server’s certificate has changed in the meantime.</b> This could mean that someone who was not the original author has taken over this host!</p>
+<p>If you are sure that you want to trust this host, you can continue this request. Gemicom will update the stored certificate.</p>
+]]></string>
+	<string name="dialog_security_issue_button_submit">Continue</string>
+
+	<string name="tab_created_at_format">MMMM dd, yyyy, HH:mm</string>
+
+	<string name="gemini_page_empty_quote">That which I see is data\nThat which I hear is data\nThat which I taste is data\nAll else is illusion</string>
+	<string name="gemini_page_empty_quote_author">—Mesopotamian farming proverb</string>
+	<string name="gemini_page_invalid_quote">javascript fatigue:\nlonging for a hypertext\nalready in hand</string>
+	<string name="gemini_page_security_issue_title">WARNING: Security issue</string>
+	<string name="gemini_page_security_explanation_1">Gemicom did not continue this request because the server’s certificate did not match the one in Gemicom’s database. This could mean that a third party has taken over the host that you tried to request.</string>
+	<string name="gemini_page_security_explanation_2">You can clear all known certificates in Gemicom’s settings.</string>
+
+	<string name="fragment_settings_toolbar">Settings</string>
+	<string name="settings_switch_dark_theme">Always use dark theme</string>
+	<string name="settings_hint_home_capsule">Home capsule</string>
+	<string name="settings_title_reset">Reset</string>
+	<string name="settings_clear_certificates_title">Clear certificates</string>
+	<string name="settings_clear_certificates_explanation">Deletes all known certificates, and starts a new database of trusted hosts.</string>
+	<string name="settings_reset_all_explanation">Reset all preferences</string>
+	<string name="settings_clear_cache_title">Clear cache</string>
+	<string name="settings_clear_cache_explanation">This deletes old files, and also resets Gemicom’s tabs.</string>
+	<string name="settings_button_reset">Reset</string>
+	<string name="settings_button_clear">Clear</string>
+	<string name="settings_toast_certificates_cleared">All known certificates deleted</string>
+	<string name="settings_toast_cache_cleared">Cache cleared</string>
+
+	<string name="fragment_about_toolbar">About Gemicom</string>
+	<string name="about_label_website">Website</string>
+	<string name="about_label_author">Author</string>
+	<string name="about_label_copyright">Copyright</string>
+	<string name="about_label_copyright_value">© 2025, All rights reserved</string>
+
+	<string name="alt_gemicom_logo">Gemicom’s logo</string>
+	<string name="alt_clear_address_bar">Clear address bar button</string>
+</resources>

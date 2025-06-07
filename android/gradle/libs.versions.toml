@@ -1,0 +1,54 @@
+[versions]
+kotlin = "2.1.20"
+agp = "8.10.0-alpha05"
+appcompat = "1.7.0"
+coreKtx = "1.16.0"
+fragmentKtx = "1.8.7"
+material = "1.12.0"
+xerial = "3.49.1.0"
+kodein = "7.26.1"
+appdirs = "1.4.0"
+kotlinxCoroutinesAndroid = "1.10.2"
+kotlinxSerializationJson = "1.8.1"
+commons-io = "2.19.0"
+coil = "2.7.0"
+kotlinLoggingJvm = "7.0.7"
+logbackAndroid = "3.0.0"
+slf4jApi = "2.0.17"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+kotlinxCoroutinesTest = "1.7.3"
+
+[libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+xerial = { module = "org.xerial:sqlite-jdbc", version.ref="xerial" }
+appdirs = { group = "net.harawata", name = "appdirs", version.ref = "appdirs" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kodein-di-conf = { module = "org.kodein.di:kodein-di-conf", version.ref = "kodein" }
+kodein-di-android = { module = "org.kodein.di:kodein-di-framework-android-x", version.ref = "kodein" }
+kodein-di-jvm = { module = "org.kodein.di:kodein-di-jvm", version.ref = "kodein" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io"}
+kotlin-logging-jvm = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlinLoggingJvm" }
+logback-android = { module = "com.github.tony19:logback-android", version.ref = "logbackAndroid" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jApi" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
+[bundles]
+kodein = ["kodein-di-jvm", "kodein-di-conf", "kodein-di-android"]
+coil = ["coil", "coil-gif", "coil-svg"]
+logging = ["kotlin-logging-jvm", "logback-android", "slf4j-api"]
