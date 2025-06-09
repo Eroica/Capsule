@@ -137,7 +137,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
                     .show(childFragmentManager, "SecurityIssue")
             }
 
-            else -> throwable.printStackTrace()
+            else -> geminiView().show(InvalidGeminiDocument)
         }
     }
 
