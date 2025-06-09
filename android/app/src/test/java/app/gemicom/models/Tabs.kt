@@ -17,7 +17,7 @@ internal class TabsTest {
         @BeforeClass
         @JvmStatic
         fun setUp() {
-            db = Db.memory(TESTS_APP_DIR)
+            db = Db.memory()
             db.update("""DELETE FROM tab""")
             tabs = SqlTabs(db)
         }

@@ -33,7 +33,7 @@ internal class ScopedTabTest {
         @JvmStatic
         fun setUp() {
             System.loadLibrary("gemicom")
-            db = Db.memory(TESTS_APP_DIR)
+            db = Db.memory()
             db.update("""DELETE FROM tab""")
             DI.global.addImport(testAppModule(db))
             tabs = SqlTabs(db)

@@ -69,8 +69,6 @@ private fun <R> runTransactionWithResult(connection: Connection, block: (connect
 }
 
 interface IDb : AutoCloseable {
-    val path: String
-
     fun <T> query(
         sql: String, setParams: (PreparedStatement) -> Unit = {}, handle: (ResultSet) -> T
     ): T
@@ -99,16 +97,11 @@ interface IDb : AutoCloseable {
     fun <T> transactionWithResult(block: () -> T): T
 }
 
-class Db private constructor(
-    home: Path,
-    uri: String
-) : IDb {
+class Db private constructor(uri: String) : IDb {
     companion object {
-        fun at(dir: Path) = Db(dir, dir.resolve(DB_NAME).toUri().toString())
-        fun memory(tmpDir: Path) = Db(tmpDir, ":memory:")
+        fun at(dir: Path) = Db(dir.resolve(DB_NAME).toUri().toString())
+        fun memory() = Db(":memory:")
     }
-
-    override val path = home.resolve(DB_NAME).toString()
 
     private val logger = KotlinLogging.logger {}
     private val connection = DriverManager.getConnection(

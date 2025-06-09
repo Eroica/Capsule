@@ -17,7 +17,7 @@ internal class PreferencesTest {
         @BeforeClass
         @JvmStatic
         fun setUp() {
-            db = Db.memory(TESTS_APP_DIR)
+            db = Db.memory()
             preferences = SqlPreferences("Tests", db)
         }
 

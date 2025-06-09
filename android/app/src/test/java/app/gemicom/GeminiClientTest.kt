@@ -15,7 +15,7 @@ internal class GeminiClientTest {
         @BeforeClass
         @JvmStatic
         fun setUp() {
-            db = Db.memory(TESTS_APP_DIR)
+            db = Db.memory()
             client = GeminiClient(SqlCertificates(db))
         }
 
