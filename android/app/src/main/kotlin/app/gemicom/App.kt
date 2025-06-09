@@ -15,9 +15,7 @@ import java.nio.file.Path
 import java.time.LocalDateTime
 import kotlin.io.path.createDirectories
 
-fun appModule(databaseDir: Path, mediaRoot: Path, cacheDir: Path) = DI.Module(name = "App") {
-    val mediaDir = mediaRoot.resolve(MEDIA_NAME)
-
+fun appModule(databaseDir: Path, mediaDir: Path, cacheDir: Path) = DI.Module(name = "App") {
     bindSingleton(tag = "MEDIA_DIR") { mediaDir }
     bindSingleton(tag = "CACHE_DIR") { cacheDir }
     bind<CoroutineDispatcher>() with singleton { Dispatchers.IO }
@@ -50,8 +48,9 @@ class App : Application(), DIGlobalAware {
         val databaseDir = applicationContext.getDatabasePath(DB_NAME).toPath().parent
         val cacheDir = applicationContext.cacheDir.toPath()
         val mediaRoot = applicationContext.getExternalFilesDir(null) ?: applicationContext.filesDir
-        mediaRoot.resolve(MEDIA_NAME).toPath().createDirectories()
-        DI.global.addImport(appModule(databaseDir, mediaRoot.toPath(), cacheDir))
+        val mediaDir = mediaRoot.resolve(MEDIA_NAME).toPath()
+        mediaDir.createDirectories()
+        DI.global.addImport(appModule(databaseDir, mediaDir, cacheDir))
 
         DefaultContext.co.launch(Writer) {
             if (AppSettings["isDebug"] == "1") {
