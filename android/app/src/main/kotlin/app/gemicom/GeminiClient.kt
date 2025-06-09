@@ -14,6 +14,7 @@ import java.security.MessageDigest
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLException
 import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.X509TrustManager
@@ -44,6 +45,7 @@ class CertificateMismatchError(
     val host: String,
     val newHash: String
 ) : CertificateException("Certificate fingerprint mismatch for $host")
+
 class RequestRefusedError(message: String) : Exception(message)
 
 interface IGeminiClient {
@@ -105,7 +107,8 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
                 logger.debug { "Server responded with non-success: $status" }
                 throw InvalidGeminiResponse("Server responded with non-success: $status")
             }
-            else -> readLimitedText(reader, MAX_RESPONSE_SIZE)
+
+            else -> readLimitedText(reader)
         }
     }
 
@@ -118,17 +121,34 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
             throw InvalidGeminiResponse("Cannot download: server responded with status $status ($meta)")
         }
 
-        readLimitedBytes(input, MAX_RESPONSE_SIZE)
+        readLimitedBytes(input)
     }
 
     private fun <T> withSocket(address: String, block: (SSLSocket, InputStream) -> T): T {
-        try {
-            val uri = URI(address)
-            val host = uri.host ?: throw InvalidGeminiUri("No host in URI: $address")
-            val port = if (uri.port == -1) 1965 else uri.port
+        val maxAttempts = 3
+        var attempt = 0
+        var lastException: Exception? = null
 
-            validateRequest(address)
+        val uri = try { URI(address) } catch (_: URISyntaxException) {
+            throw InvalidGeminiUri("Illegal URI: $address")
+        }
+        val host = uri.host ?: throw InvalidGeminiUri("No host in URI: $address")
+        val port = if (uri.port == -1) 1965 else uri.port
 
+        validateRequest(address)
+
+        /**
+         * @since 2025-06-09
+         * Weird error on an Android emulator (version 15, non-Google image) when trying to read the response,
+         * ironically happens at gemini://geminiprotocol.net/docs/faq.gmi:
+         * error:1e000065:Cipher functions:OPENSSL_internal:BAD_DECRYPT (external/boringssl/src/crypto/cipher_extra/e_chacha20poly1305.c:259 0x750ae470ed4b:0x00000000)
+         * error:1000008b:SSL routines:OPENSSL_internal:DECRYPTION_FAILED_OR_BAD_RECORD_MAC (external/boringssl/src/ssl/tls_record.cc:294 0x750ae470ed4b:0x00000000)
+         *
+         * geminiprotocol.net uses TLS_CHACHA20_POLY1305_SHA256 (renamed in later BoringSSL versions!?) while e.g. mine
+         * uses TLS_AES_128_GCM_SHA256. So far only experienced this on an emulator, happens about 80% of the time.
+         * Interestingly, another connection right after the first one usually works. Add a simple retry for now ...
+         */
+        while (attempt < maxAttempts) {
             try {
                 val context = SSLContext.getInstance("TLS")
                 context.init(null, arrayOf(TofuTrustManager(host, certificates)), null)
@@ -136,7 +156,6 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
                 (context.socketFactory.createSocket(host, port) as SSLSocket).use { socket ->
                     socket.soTimeout = MAX_REQUEST_TIME
                     socket.startHandshake()
-
                     socket.outputStream.bufferedWriter(Charsets.UTF_8).apply {
                         write(address)
                         write("\r\n")
@@ -151,19 +170,24 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
                 } else {
                     throw e
                 }
+            } catch (e: SSLException) {
+                logger.warn(e) { "TLS error on attempt ${attempt + 1}. Retrying ..." }
+                lastException = e
+                attempt++
             } catch (_: SocketTimeoutException) {
                 logger.debug { "Request timed out: $address" }
                 throw NoResponseError("Request timed out: $address")
+            } catch (_: UnknownHostException) {
+                throw InvalidGeminiUri("Illegal URI: $address (unknown host)")
+            } catch (_: ConnectException) {
+                throw NoResponseError("Server did not accept connection: $address")
+            } catch (_: NullPointerException) {
+                throw InvalidGeminiUri("Illegal URI: $address (missing scheme?)")
             }
-        } catch (_: URISyntaxException) {
-            throw InvalidGeminiUri("Illegal URI: $address")
-        } catch (_: UnknownHostException) {
-            throw InvalidGeminiUri("Illegal URI: $address (unknown host)")
-        } catch (_: ConnectException) {
-            throw NoResponseError("Server did not accept connection: $address")
-        } catch (_: NullPointerException) {
-            throw InvalidGeminiUri("Illegal URI: $address (missing scheme?)")
         }
+
+        logger.error(lastException) { "All TLS retries failed for $address" }
+        throw lastException ?: InvalidGeminiResponse("Unknown TLS failure after retries")
     }
 
     /* First response line is always considered UTF-8 */
@@ -273,7 +297,7 @@ class CachableGeminiClient(
     }
 }
 
-private fun readLimitedText(reader: Reader, maxSize: Int): String {
+private fun readLimitedText(reader: Reader): String {
     val builder = StringBuilder()
     val buffer = CharArray(8192)
     var total = 0
@@ -284,8 +308,8 @@ private fun readLimitedText(reader: Reader, maxSize: Int): String {
             break
         }
         total += read
-        if (total > maxSize) {
-            throw InvalidGeminiResponse("Response too large (limit: $maxSize bytes)")
+        if (total > MAX_RESPONSE_SIZE) {
+            throw InvalidGeminiResponse("Response too large (limit: $MAX_RESPONSE_SIZE bytes)")
         }
         builder.append(buffer, 0, read)
     }
@@ -293,7 +317,7 @@ private fun readLimitedText(reader: Reader, maxSize: Int): String {
     return builder.toString()
 }
 
-private fun readLimitedBytes(input: InputStream, maxSize: Int): ByteArray {
+private fun readLimitedBytes(input: InputStream): ByteArray {
     val output = ByteArrayOutputStream()
     val buffer = ByteArray(8192)
     var total = 0
@@ -304,8 +328,8 @@ private fun readLimitedBytes(input: InputStream, maxSize: Int): ByteArray {
             break
         }
         total += read
-        if (total > maxSize) {
-            throw InvalidGeminiResponse("Binary response too large (limit: $maxSize bytes)")
+        if (total > MAX_RESPONSE_SIZE) {
+            throw InvalidGeminiResponse("Binary response too large (limit: $MAX_RESPONSE_SIZE bytes)")
         }
         output.write(buffer, 0, read)
     }
