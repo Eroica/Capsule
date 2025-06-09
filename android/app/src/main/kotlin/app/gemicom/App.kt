@@ -15,10 +15,9 @@ import java.nio.file.Path
 import java.time.LocalDateTime
 import kotlin.io.path.createDirectories
 
-fun appModule(appDir: Path, mediaRoot: Path, cacheDir: Path) = DI.Module(name = "App") {
+fun appModule(databaseDir: Path, mediaRoot: Path, cacheDir: Path) = DI.Module(name = "App") {
     val mediaDir = mediaRoot.resolve(MEDIA_NAME)
 
-    bindSingleton(tag = "APP_DIR") { appDir }
     bindSingleton(tag = "MEDIA_DIR") { mediaDir }
     bindSingleton(tag = "CACHE_DIR") { cacheDir }
     bind<CoroutineDispatcher>() with singleton { Dispatchers.IO }
@@ -27,7 +26,7 @@ fun appModule(appDir: Path, mediaRoot: Path, cacheDir: Path) = DI.Module(name = 
     }
     bindSingleton { DefaultContext() }
 
-    bindSingleton { Db.at(appDir) }
+    bindSingleton { Db.at(databaseDir) }
     bindSingleton { SqlDocuments(instance()) }
     bindSingleton { SqlTabs(instance()) }
     bindSingleton { SqlCertificates(instance()) }
@@ -48,11 +47,11 @@ class App : Application(), DIGlobalAware {
     override fun onCreate() {
         super.onCreate()
         System.loadLibrary("gemicom")
-        val appDir = applicationContext.getDatabasePath(DB_NAME).toPath().parent
+        val databaseDir = applicationContext.getDatabasePath(DB_NAME).toPath().parent
         val cacheDir = applicationContext.cacheDir.toPath()
         val mediaRoot = applicationContext.getExternalFilesDir(null) ?: applicationContext.filesDir
         mediaRoot.resolve(MEDIA_NAME).toPath().createDirectories()
-        DI.global.addImport(appModule(appDir, mediaRoot.toPath(), cacheDir))
+        DI.global.addImport(appModule(databaseDir, mediaRoot.toPath(), cacheDir))
 
         DefaultContext.co.launch(Writer) {
             if (AppSettings["isDebug"] == "1") {
