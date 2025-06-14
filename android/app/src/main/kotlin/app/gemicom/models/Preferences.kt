@@ -8,6 +8,7 @@ interface IPreferences {
     operator fun get(name: String): String?
     operator fun set(name: String, value: String?)
     operator fun set(name: String, value: Boolean)
+    fun clear()
 }
 
 class SqlPreferences(
@@ -62,6 +63,12 @@ class SqlPreferences(
                 it.setBoolean(2, value)
                 it.setString(3, prefs)
             }
+        }
+    }
+
+    override fun clear() {
+        db.update(Sql.Env_Settings_Clear) {
+            it.setString(1, prefs)
         }
     }
 }

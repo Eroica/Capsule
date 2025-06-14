@@ -56,8 +56,7 @@ class SettingsViewModel : ViewModel(), DIGlobalAware {
     }
 
     suspend fun resetPreferences() = withContext(Writer) {
-        AppSettings["home"] = ""
-        AppSettings["isDarkTheme"] = "0"
+        AppSettings.clear()
         _home.postValue("")
         _isDarkTheme.postValue(false)
     }

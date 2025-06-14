@@ -59,7 +59,8 @@ enum class Sql {
     Cache_Delete,
     Tmp_TabHistory_Insert,
     Env_Settings_Get,
-    Env_Settings_Set_1, Env_Settings_Set_2;
+    Env_Settings_Set_1, Env_Settings_Set_2,
+    Env_Settings_Clear;
 
     companion object {
         operator fun invoke(sql: Sql): String = when (sql) {
@@ -86,6 +87,7 @@ enum class Sql {
             Env_Settings_Get -> """SELECT json_extract(value, '$.' || ?) FROM environment WHERE name=?"""
             Env_Settings_Set_1 -> """INSERT OR IGNORE INTO environment (name, value) VALUES (?, json_object(?, ?))"""
             Env_Settings_Set_2 -> """UPDATE environment SET value=json_set(value, '$.' || ?, ?) WHERE name=?"""
+            Env_Settings_Clear -> """DELETE from environment WHERE name=?"""
         }
     }
 }
