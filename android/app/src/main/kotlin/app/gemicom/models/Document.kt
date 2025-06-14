@@ -113,6 +113,10 @@ data object SecurityIssueGeminiDocument : IGeminiDocument {
     override val blocks = listOf(SecurityIssueBlock)
 }
 
+data object CertificateInvalidDocument : IGeminiDocument {
+    override val blocks = listOf(CertificateInvalidBlock)
+}
+
 private fun mergeTokens(tokens: List<IGemtext>): List<IGemtext> {
     val result = mutableListOf<IGemtext>()
     val buffer = mutableListOf<IGemtext>()

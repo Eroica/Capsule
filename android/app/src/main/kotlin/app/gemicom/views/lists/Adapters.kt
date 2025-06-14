@@ -86,6 +86,7 @@ class GeminiAdapter(
             EmptyPageBlock -> {}
             InvalidDocumentBlock -> {}
             SecurityIssueBlock -> {}
+            CertificateInvalidBlock -> {}
         }
     }
 
@@ -102,6 +103,7 @@ class GeminiAdapter(
             EmptyPageBlock -> R.layout.gemtext_page_empty
             InvalidDocumentBlock -> R.layout.gemtext_page_invalid
             SecurityIssueBlock -> R.layout.gemtext_page_security_issue
+            CertificateInvalidBlock -> R.layout.gemtext_page_certificate_error
             else -> R.layout.gemtext_paragraph
         }
     }

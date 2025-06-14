@@ -12,6 +12,8 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.security.MessageDigest
 import java.security.cert.CertificateException
+import java.security.cert.CertificateExpiredException
+import java.security.cert.CertificateNotYetValidException
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLException
@@ -45,7 +47,7 @@ class CertificateMismatchError(
     val host: String,
     val newHash: String
 ) : CertificateException("Certificate fingerprint mismatch for $host")
-
+class CertificateDateError : Exception()
 class RequestRefusedError(message: String) : Exception(message)
 
 interface IGeminiClient {
@@ -58,8 +60,10 @@ class TofuTrustManager(
     private val certificates: ICertificates
 ) : X509TrustManager {
     override fun checkServerTrusted(chain: Array<out X509Certificate>, authType: String) {
-        val hash = sha256(chain.first())
+        val certificate = chain.first()
+        certificate.checkValidity()
 
+        val hash = sha256(certificate)
         try {
             if (certificates[host].first != hash) {
                 throw CertificateMismatchError(host, hash)
@@ -170,6 +174,10 @@ class GeminiClient(private val certificates: ICertificates) : IGeminiClient {
                 } else {
                     throw e
                 }
+            } catch (_: CertificateExpiredException) {
+                throw CertificateDateError()
+            } catch (_: CertificateNotYetValidException) {
+                throw CertificateDateError()
             } catch (e: SSLException) {
                 logger.warn(e) { "TLS error on attempt ${attempt + 1}. Retrying ..." }
                 lastException = e

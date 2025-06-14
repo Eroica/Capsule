@@ -93,6 +93,10 @@ data object SecurityIssueBlock : IGemtext {
     override val content = ""
 }
 
+data object CertificateInvalidBlock : IGemtext {
+    override val content = ""
+}
+
 fun parseGemtext(type: String, value: String): IGemtext {
     return when (type) {
         GemtextToken.LINK.symbol -> {

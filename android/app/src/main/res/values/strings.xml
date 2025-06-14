@@ -47,6 +47,9 @@
 	<string name="gemini_page_security_issue_title">WARNING: Security issue</string>
 	<string name="gemini_page_security_explanation_1">Gemicom did not continue this request because the server’s certificate did not match the one in Gemicom’s database. This could mean that a third party has taken over the host that you tried to request.</string>
 	<string name="gemini_page_security_explanation_2">You can clear all known certificates in Gemicom’s settings.</string>
+	<string name="gemini_page_certificate_error_title">WARNING: Certificate is invalid</string>
+	<string name="gemini_page_certificate_error_explanation_1">Gemicom did not continue this request because the server’s certificate is not valid.</string>
+	<string name="gemini_page_certificate_error_explanation_2">You can clear all known certificates in Gemicom’s settings.</string>
 
 	<string name="fragment_settings_toolbar">Settings</string>
 	<string name="settings_switch_dark_theme">Always use dark theme</string>

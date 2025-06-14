@@ -140,6 +140,8 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
                     .show(childFragmentManager, "SecurityIssue")
             }
 
+            is CertificateDateError -> geminiView().show(CertificateInvalidDocument)
+
             else -> geminiView().show(InvalidGeminiDocument)
         }
     }
