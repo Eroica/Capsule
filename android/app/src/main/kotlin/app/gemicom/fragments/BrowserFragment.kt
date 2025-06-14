@@ -4,6 +4,9 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -140,8 +143,19 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
             else -> geminiView().show(InvalidGeminiDocument)
         }
     }
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            isNoNetwork = false
+        }
 
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            isNoNetwork = true
+        }
+    }
     private var navigation: INavigation? = null
+    private var isNoNetwork = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -188,6 +202,8 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         geminiView().scrollListener = null
         pasteButton().setOnClickListener(null)
         viewRefs.clear()
+        (requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+            .unregisterNetworkCallback(networkCallback)
         super.onDestroyView()
     }
 
@@ -204,7 +220,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         if (viewModel.isLoading.value == true) {
             return
         }
-        co.launch { viewModel.navigate(anchor.url, pushToHistory = true, isCheckCache = false) }
+        co.launch { onNavigate(anchor.url, pushToHistory = true, isCheckCache = false) }
     }
 
     override fun onImageClicked(image: Image, imageView: ImageView) {
@@ -229,7 +245,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         co.launch {
             viewModel.updateCertificate(host, hash)
             viewModel.currentTab.value?.let {
-                viewModel.navigate(it.currentLocation, pushToHistory = false, isCheckCache = false)
+                onNavigate(it.currentLocation, pushToHistory = false, isCheckCache = false)
             }
         }
     }
@@ -274,9 +290,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
                         R.id.browser_forward -> co.launch { viewModel.forward() }
                         R.id.browser_refresh -> co.launch {
                             viewModel.currentTab.value?.let {
-                                viewModel.navigate(
-                                    it.currentLocation, pushToHistory = false, isCheckCache = false
-                                )
+                                onNavigate(it.currentLocation, pushToHistory = false, isCheckCache = false)
                             }
                         }
 
@@ -326,7 +340,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
                 if (homeCapsule.isBlank()) {
                     Toast.makeText(context, getString(R.string.browser_toast_set_home), Toast.LENGTH_SHORT).show()
                 } else {
-                    viewModel.navigate(homeCapsule)
+                    onNavigate(homeCapsule)
                 }
             }
         }
@@ -337,7 +351,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
             .onEach { pasteButton().isEnabled = it.isNotBlank() }
             .launchIn(viewLifecycleOwner.lifecycleScope)
         pasteButton().setOnClickListener {
-            co.launch { viewModel.navigate(clipBoard.content()) }
+            co.launch { onNavigate(clipBoard.content()) }
         }
 
         parentFragmentManager.setFragmentResultListener(
@@ -348,6 +362,9 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
                 co.launch { viewModel.reset() }
             }
         }
+
+        (requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+            .registerNetworkCallback(NetworkRequest.Builder().build(), networkCallback)
     }
 
     private fun setupActionListeners() {
@@ -403,5 +420,17 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         addressBar().requestFocus()
         (requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
             .showSoftInput(addressBar(), InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private suspend fun onNavigate(
+        address: String, pushToHistory: Boolean = true, isCheckCache: Boolean = true
+    ) {
+        if (isNoNetwork) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, getString(R.string.browser_toast_no_network), Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            viewModel.navigate(address, pushToHistory, isCheckCache)
+        }
     }
 }
