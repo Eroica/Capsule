@@ -14,7 +14,7 @@
 
 		<View
 			android:layout_width="match_parent"
-			android:layout_height="4dp"
+			android:layout_height="8dp"
 			android:background="?android:statusBarColor" />
 
 		<com.google.android.material.card.MaterialCardView
@@ -28,6 +28,12 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent" />
 		</com.google.android.material.card.MaterialCardView>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="8dp"
+			android:layout_gravity="bottom"
+			android:background="?colorSurface" />
 
 		<com.google.android.material.progressindicator.LinearProgressIndicator
 			android:id="@+id/progressBar"
