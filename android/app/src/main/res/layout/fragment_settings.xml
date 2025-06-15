@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:background="?android:colorBackground">
 
 	<com.google.android.material.appbar.AppBarLayout
 		android:id="@id/appBar"
@@ -15,7 +17,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="?actionBarSize"
 			app:navigationIcon="@drawable/close_24px"
-			app:title="@string/fragment_settings_toolbar" />
+			app:title="@string/fragment_settings_toolbar"/>
 	</com.google.android.material.appbar.AppBarLayout>
 
 	<androidx.core.widget.NestedScrollView
@@ -51,11 +53,11 @@
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:enabled="false"
-						android:text="@string/settings_switch_dark_theme" />
+						android:text="@string/settings_switch_dark_theme"/>
 
 					<com.google.android.material.divider.MaterialDivider
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
+						android:layout_height="wrap_content"/>
 
 					<com.google.android.material.textfield.TextInputLayout
 						style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -70,7 +72,7 @@
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content">
 
-							<requestFocus />
+							<requestFocus/>
 						</com.google.android.material.textfield.TextInputEditText>
 					</com.google.android.material.textfield.TextInputLayout>
 				</LinearLayout>
@@ -82,7 +84,7 @@
 				android:text="@string/settings_title_reset"
 				android:layout_marginTop="16dp"
 				android:layout_marginHorizontal="16dp"
-				android:textAppearance="?textAppearanceHeadline6" />
+				android:textAppearance="?textAppearanceHeadline6"/>
 
 			<com.google.android.material.card.MaterialCardView
 				android:layout_width="match_parent"
@@ -118,25 +120,25 @@
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
 								android:textAppearance="?textAppearanceBody1"
-								android:text="@string/settings_clear_certificates_title" />
+								android:text="@string/settings_clear_certificates_title"/>
 
 							<TextView
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
 								android:textAppearance="?textAppearanceBody2"
-								android:text="@string/settings_clear_certificates_explanation" />
+								android:text="@string/settings_clear_certificates_explanation"/>
 						</LinearLayout>
 
 						<Button
 							android:id="@+id/buttonClearCertificates"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="@string/settings_button_clear" />
+							android:text="@string/settings_button_clear"/>
 					</LinearLayout>
 
 					<com.google.android.material.divider.MaterialDivider
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
+						android:layout_height="wrap_content"/>
 
 					<LinearLayout
 						android:layout_width="match_parent"
@@ -158,25 +160,25 @@
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
 								android:textAppearance="?textAppearanceBody1"
-								android:text="@string/settings_clear_cache_title" />
+								android:text="@string/settings_clear_cache_title"/>
 
 							<TextView
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
 								android:textAppearance="?textAppearanceBody2"
-								android:text="@string/settings_clear_cache_explanation" />
+								android:text="@string/settings_clear_cache_explanation"/>
 						</LinearLayout>
 
 						<Button
 							android:id="@+id/buttonClearCache"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="@string/settings_button_clear" />
+							android:text="@string/settings_button_clear"/>
 					</LinearLayout>
 
 					<com.google.android.material.divider.MaterialDivider
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
+						android:layout_height="wrap_content"/>
 
 					<LinearLayout
 						android:layout_width="match_parent"
@@ -192,13 +194,13 @@
 							android:layout_height="wrap_content"
 							android:layout_weight="1"
 							android:text="@string/settings_reset_all_explanation"
-							android:paddingHorizontal="8dp" />
+							android:paddingHorizontal="8dp"/>
 
 						<Button
 							android:id="@+id/buttonResetAll"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="@string/settings_button_reset" />
+							android:text="@string/settings_button_reset"/>
 					</LinearLayout>
 				</LinearLayout>
 			</com.google.android.material.card.MaterialCardView>

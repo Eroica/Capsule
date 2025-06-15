@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:background="?android:colorBackground">
 
 	<com.google.android.material.appbar.AppBarLayout
 		android:id="@id/appBar"
@@ -15,7 +17,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="?actionBarSize"
 			app:navigationIcon="@drawable/close_24px"
-			app:title="@string/fragment_about_toolbar" />
+			app:title="@string/fragment_about_toolbar"/>
 	</com.google.android.material.appbar.AppBarLayout>
 
 	<androidx.core.widget.NestedScrollView
@@ -38,7 +40,7 @@
 				android:layout_height="128dp"
 				android:layout_gravity="center"
 				android:contentDescription="@string/alt_gemicom_logo"
-				app:srcCompat="@mipmap/ic_launcher" />
+				app:srcCompat="@mipmap/ic_launcher"/>
 
 			<TextView
 				android:textAppearance="?textAppearanceHeadline6"
@@ -46,7 +48,7 @@
 				android:layout_height="wrap_content"
 				android:text="@string/app_name"
 				android:gravity="center"
-				android:drawablePadding="4dp" />
+				android:drawablePadding="4dp"/>
 
 			<TextView
 				android:id="@+id/appVersion"
@@ -54,7 +56,7 @@
 				android:layout_height="wrap_content"
 				android:textAppearance="?textAppearanceSubtitle2"
 				android:gravity="center"
-				tools:text="v2025.05" />
+				tools:text="v2025.05"/>
 
 			<com.google.android.material.card.MaterialCardView
 				android:layout_width="match_parent"
@@ -78,7 +80,7 @@
 							android:textAppearance="?textAppearanceBody2"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="@string/about_label_website" />
+							android:text="@string/about_label_website"/>
 
 						<TextView
 							android:textAppearance="?textAppearanceBody2"
@@ -89,12 +91,12 @@
 							android:gravity="end"
 							android:autoLink="web"
 							android:linksClickable="true"
-							android:text="@string/gemicom_link" />
+							android:text="@string/gemicom_link"/>
 					</LinearLayout>
 
 					<com.google.android.material.divider.MaterialDivider
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
+						android:layout_height="wrap_content"/>
 
 					<LinearLayout
 						android:layout_width="match_parent"
@@ -105,7 +107,7 @@
 							android:textAppearance="?textAppearanceBody2"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="@string/about_label_author" />
+							android:text="@string/about_label_author"/>
 
 						<TextView
 							android:id="@+id/authorLink"
@@ -115,12 +117,12 @@
 							android:layout_marginStart="8dp"
 							android:layout_weight="1"
 							android:gravity="end"
-							android:text="@string/author_link" />
+							android:text="@string/author_link"/>
 					</LinearLayout>
 
 					<com.google.android.material.divider.MaterialDivider
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
+						android:layout_height="wrap_content"/>
 
 					<LinearLayout
 						android:layout_width="match_parent"
@@ -131,7 +133,7 @@
 							android:textAppearance="?textAppearanceBody2"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="@string/about_label_copyright" />
+							android:text="@string/about_label_copyright"/>
 
 						<TextView
 							android:textAppearance="?textAppearanceBody2"
@@ -142,7 +144,7 @@
 							android:gravity="end"
 							android:autoLink="web"
 							android:linksClickable="true"
-							android:text="@string/about_label_copyright_value" />
+							android:text="@string/about_label_copyright_value"/>
 					</LinearLayout>
 				</LinearLayout>
 			</com.google.android.material.card.MaterialCardView>
@@ -164,7 +166,7 @@
 					android:padding="16dp"
 					android:textSize="12sp"
 					android:fontFamily="monospace"
-					tools:text="Lorem ipsum dolor sit amet" />
+					tools:text="Lorem ipsum dolor sit amet"/>
 			</com.google.android.material.card.MaterialCardView>
 
 			<com.google.android.material.card.MaterialCardView
@@ -184,7 +186,7 @@
 					android:padding="16dp"
 					android:textSize="12sp"
 					android:fontFamily="monospace"
-					tools:text="Lorem ipsum dolor sit amet" />
+					tools:text="Lorem ipsum dolor sit amet"/>
 			</com.google.android.material.card.MaterialCardView>
 
 			<com.google.android.material.card.MaterialCardView
@@ -204,7 +206,7 @@
 					android:padding="16dp"
 					android:textSize="12sp"
 					android:fontFamily="monospace"
-					tools:text="Lorem ipsum dolor sit amet" />
+					tools:text="Lorem ipsum dolor sit amet"/>
 			</com.google.android.material.card.MaterialCardView>
 
 			<com.google.android.material.card.MaterialCardView
@@ -224,7 +226,7 @@
 					android:padding="16dp"
 					android:textSize="12sp"
 					android:fontFamily="monospace"
-					tools:text="Lorem ipsum dolor sit amet" />
+					tools:text="Lorem ipsum dolor sit amet"/>
 			</com.google.android.material.card.MaterialCardView>
 		</LinearLayout>
 	</androidx.core.widget.NestedScrollView>
