@@ -4,11 +4,9 @@ import app.gemicom.CachableGeminiClient
 import app.gemicom.GeminiClient
 import app.gemicom.IDb
 import app.gemicom.models.*
-import kotlinx.coroutines.withContext
 import org.kodein.di.conf.DIGlobalAware
 import org.kodein.di.instance
 import java.nio.file.Path
-import kotlin.coroutines.coroutineContext
 
 class ScopedTab(private val tab: ITab) : ITab by tab, AutoCloseable, DIGlobalAware {
     private val Db: IDb by instance()

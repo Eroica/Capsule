@@ -4,12 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.gemicom.models.AppSettings
-import app.gemicom.models.ICertificates
-import app.gemicom.models.IDocuments
-import app.gemicom.models.IPreferences
-import app.gemicom.models.ITabs
-import app.gemicom.models.SqliteCache
+import app.gemicom.models.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

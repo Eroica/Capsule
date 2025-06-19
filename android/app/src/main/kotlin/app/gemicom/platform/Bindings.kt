@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.IdRes
-import app.gemicom.R
 import coil.ImageLoader
 import coil.load
 import kotlinx.coroutines.CoroutineScope

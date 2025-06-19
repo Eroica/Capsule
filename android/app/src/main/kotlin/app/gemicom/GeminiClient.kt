@@ -15,11 +15,7 @@ import java.security.cert.CertificateException
 import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.X509Certificate
-import javax.net.ssl.SSLContext
-import javax.net.ssl.SSLException
-import javax.net.ssl.SSLHandshakeException
-import javax.net.ssl.SSLSocket
-import javax.net.ssl.X509TrustManager
+import javax.net.ssl.*
 import kotlin.io.path.name
 import kotlin.io.path.outputStream
 
