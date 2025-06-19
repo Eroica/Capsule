@@ -172,14 +172,15 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         }
         setupMenu()
 
-        addressBar = viewRefs.bind(view, R.id.addressBar)
-        clearButton = viewRefs.bind(view, R.id.addressBarClearButton)
-        geminiView = viewRefs.bind(view, R.id.geminiView)
-        tabsButton = viewRefs.bind(view, R.id.tabsButton)
-        progressBar = viewRefs.bind(view, R.id.progressBar)
-        bottomBarHeader = viewRefs.bind(view, R.id.bottomBarHeader)
-        homeButton = viewRefs.bind(view, R.id.bottomHomeButton)
-        pasteButton = viewRefs.bind(view, R.id.bottomPasteButton)
+        viewRefs.setRoot(view)
+        addressBar = viewRefs.bind(R.id.addressBar)
+        clearButton = viewRefs.bind(R.id.addressBarClearButton)
+        geminiView = viewRefs.bind(R.id.geminiView)
+        tabsButton = viewRefs.bind(R.id.tabsButton)
+        progressBar = viewRefs.bind(R.id.progressBar)
+        bottomBarHeader = viewRefs.bind(R.id.bottomBarHeader)
+        homeButton = viewRefs.bind(R.id.bottomHomeButton)
+        pasteButton = viewRefs.bind(R.id.bottomPasteButton)
 
         co = viewLifecycleOwner.lifecycleScope + exceptionHandler
         co.launch {

@@ -49,12 +49,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         startPostponedEnterTransition()
 
-        darkThemeSwitch = viewRefs.bind(view, R.id.darkThemeSwitch)
-        homeField = viewRefs.bind(view, R.id.homeCapsule)
-        showImagesSwitch = viewRefs.bind(view, R.id.alwaysShowImagesSwitch)
-        clearCertificatesButton = viewRefs.bind(view, R.id.buttonClearCertificates)
-        clearCacheButton = viewRefs.bind(view, R.id.buttonClearCache)
-        resetAllButton = viewRefs.bind(view, R.id.buttonResetAll)
+        viewRefs.setRoot(view)
+        darkThemeSwitch = viewRefs.bind(R.id.darkThemeSwitch)
+        homeField = viewRefs.bind(R.id.homeCapsule)
+        showImagesSwitch = viewRefs.bind(R.id.alwaysShowImagesSwitch)
+        clearCertificatesButton = viewRefs.bind(R.id.buttonClearCertificates)
+        clearCacheButton = viewRefs.bind(R.id.buttonClearCache)
+        resetAllButton = viewRefs.bind(R.id.buttonResetAll)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.initialization.join()

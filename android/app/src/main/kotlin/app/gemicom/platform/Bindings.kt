@@ -18,18 +18,24 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 
 class ViewRefs {
+    private var root: View? = null
     private val views = mutableMapOf<Int, View>()
 
-    fun <T : View> bind(root: View, @IdRes id: Int): () -> T {
+    fun setRoot(root: View) {
+        this@ViewRefs.root = root
+    }
+
+    fun <T : View> bind(@IdRes id: Int): () -> T {
         @Suppress("UNCHECKED_CAST")
         return {
-            val view = views[id] ?: root.findViewById<T>(id).also { views[id] = it }
+            val view = views[id] ?: root!!.findViewById<T>(id).also { views[id] = it }
             view as T
         }
     }
 
     fun clear() {
         views.clear()
+        root = null
     }
 }
 

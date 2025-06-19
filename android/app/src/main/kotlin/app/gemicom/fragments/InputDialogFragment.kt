@@ -64,10 +64,11 @@ class InputDialogFragment : AppCompatDialogFragment() {
         dialog.setTitle(getString(R.string.dialog_input_title))
             .addView(layout)
 
-        button = viewRefs.bind(layout, R.id.submitButton)
-        explanation = viewRefs.bind(layout, R.id.explanation)
-        message = viewRefs.bind(layout, R.id.message)
-        input = viewRefs.bind(layout, R.id.inputField)
+        viewRefs.setRoot(layout)
+        button = viewRefs.bind(R.id.submitButton)
+        explanation = viewRefs.bind(R.id.explanation)
+        message = viewRefs.bind(R.id.message)
+        input = viewRefs.bind(R.id.inputField)
 
         requireArguments().apply {
             uri = getString(ARG_URI) ?: throw IllegalArgumentException("No URI in arguments")

@@ -78,9 +78,10 @@ class SecurityIssueDialogFragment : AppCompatDialogFragment(), DIGlobalAware {
         val layout = layoutInflater.inflate(R.layout.dialog_security_issue, dialog.findViewById(R.id.container), false)
         dialog.setTitle(getString(R.string.dialog_security_issue_title)).addView(layout)
 
-        button = viewRefs.bind(layout, R.id.submitButton)
-        message = viewRefs.bind(layout, R.id.message)
-        checkBox = viewRefs.bind(layout, R.id.confirmCheckbox)
+        viewRefs.setRoot(layout)
+        button = viewRefs.bind(R.id.submitButton)
+        message = viewRefs.bind(R.id.message)
+        checkBox = viewRefs.bind(R.id.confirmCheckbox)
 
         lifecycleScope.launch {
             setupMessage()
