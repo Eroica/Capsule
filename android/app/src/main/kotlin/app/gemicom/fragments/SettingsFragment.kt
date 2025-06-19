@@ -29,6 +29,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private lateinit var darkThemeSwitch: () -> SwitchCompat
     private lateinit var homeField: () -> EditText
+    private lateinit var showImagesSwitch: () -> SwitchCompat
     private lateinit var clearCertificatesButton: () -> Button
     private lateinit var clearCacheButton: () -> Button
     private lateinit var resetAllButton: () -> Button
@@ -50,6 +51,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         darkThemeSwitch = viewRefs.bind(view, R.id.darkThemeSwitch)
         homeField = viewRefs.bind(view, R.id.homeCapsule)
+        showImagesSwitch = viewRefs.bind(view, R.id.alwaysShowImagesSwitch)
         clearCertificatesButton = viewRefs.bind(view, R.id.buttonClearCertificates)
         clearCacheButton = viewRefs.bind(view, R.id.buttonClearCache)
         resetAllButton = viewRefs.bind(view, R.id.buttonResetAll)
@@ -84,11 +86,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 homeField().setText(it)
             }
         }
+        viewModel.isShowInline.observe(viewLifecycleOwner) { isShowInline ->
+            if (showImagesSwitch().isChecked != isShowInline) {
+                showImagesSwitch().isChecked = isShowInline
+            }
+        }
     }
 
     private fun setupListeners() {
         darkThemeSwitch().setOnCheckedChangeListener { _, isChecked ->
             lifecycleScope.launch { viewModel.setDarkTheme(isChecked) }
+        }
+        showImagesSwitch().setOnCheckedChangeListener { _, isChecked ->
+            lifecycleScope.launch { viewModel.setShowImagesInline(isChecked) }
         }
         clearCertificatesButton().onClickLaunch(viewLifecycleOwner.lifecycleScope) {
             viewModel.clearCertificates()

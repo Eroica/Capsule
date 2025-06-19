@@ -54,6 +54,7 @@
 	<string name="fragment_settings_toolbar">Settings</string>
 	<string name="settings_switch_dark_theme">Always use dark theme</string>
 	<string name="settings_hint_home_capsule">Home capsule</string>
+	<string name="settings_switch_always_show_images">Automatically show images inline</string>
 	<string name="settings_title_reset">Reset</string>
 	<string name="settings_clear_certificates_title">Clear certificates</string>
 	<string name="settings_clear_certificates_explanation">Deletes all known certificates, and starts a new database of trusted hosts.</string>

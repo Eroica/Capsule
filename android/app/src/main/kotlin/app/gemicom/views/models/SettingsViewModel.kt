@@ -32,9 +32,13 @@ class SettingsViewModel : ViewModel(), DIGlobalAware {
     private val _home = MutableLiveData<String>()
     val home: LiveData<String> = _home
 
+    private val _isShowInline = MutableLiveData<Boolean>()
+    val isShowInline: LiveData<Boolean> = _isShowInline
+
     val initialization: Job = viewModelScope.launch(Dispatcher) {
         _isDarkTheme.postValue(AppSettings.isDarkTheme)
         _home.postValue(AppSettings.home)
+        _isShowInline.postValue(AppSettings.isShowImagesInline)
     }
 
     suspend fun setDarkTheme(isDark: Boolean) = withContext(Writer) {
@@ -43,6 +47,10 @@ class SettingsViewModel : ViewModel(), DIGlobalAware {
 
     suspend fun setHome(home: String) = withContext(Writer) {
         AppSettings.home = home
+    }
+
+    suspend fun setShowImagesInline(isShowInline: Boolean) = withContext(Writer) {
+        AppSettings.isShowImagesInline = isShowInline
     }
 
     suspend fun clearCertificates() = withContext(Writer) {
@@ -60,5 +68,6 @@ class SettingsViewModel : ViewModel(), DIGlobalAware {
         AppSettings.clear()
         _home.postValue("")
         _isDarkTheme.postValue(false)
+        _isShowInline.postValue(false)
     }
 }
