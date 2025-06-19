@@ -44,8 +44,11 @@ class GemtextDiffCallback : DiffUtil.ItemCallback<IGemtext>() {
 }
 
 class GeminiAdapter(
-    private val listener: IGemtextClickListener
+    private val listener: IGemtextClickListener,
+    private val appSettings: AppSettings
 ) : ListAdapter<IGemtext, BindingViewHolder>(GemtextDiffCallback()) {
+    private val isShowImagesInline = appSettings.isShowImagesInline
+
     private val spans = object : Spannable.Factory() {
         override fun newSpannable(source: CharSequence?): Spannable {
             return source as Spannable
@@ -175,28 +178,34 @@ class GeminiAdapter(
 
     private fun bindImage(view: View, token: Image) {
         view.findViewById<TextView>(R.id.gemtextImageLabel).text = token.content
-        view.setOnClickListener {
-            view.findViewById<ImageView>(R.id.gemtextImage).apply {
-                token.isExpanded = !token.isExpanded
-
-                if (token.isExpanded) {
-                    TransitionManager.beginDelayedTransition(view as ViewGroup, AutoTransition())
-                    listener.onImageClicked(token, this)
-                    visibility = VISIBLE
-                } else {
-                    TransitionManager.beginDelayedTransition(view as ViewGroup, AutoTransition())
-                    visibility = GONE
-                }
-            }
-        }
-
         val imageView = view.findViewById<ImageView>(R.id.gemtextImage)
 
-        if (!token.isExpanded) {
-            imageView.visibility = GONE
-        } else {
+        if (isShowImagesInline) {
             imageView.visibility = VISIBLE
             listener.onImageClicked(token, imageView)
+        } else {
+            view.setOnClickListener {
+                view.findViewById<ImageView>(R.id.gemtextImage).apply {
+                    token.isExpanded = !token.isExpanded
+
+                    if (token.isExpanded) {
+                        TransitionManager.beginDelayedTransition(view as ViewGroup, AutoTransition())
+                        listener.onImageClicked(token, this)
+                        visibility = VISIBLE
+                    } else {
+                        TransitionManager.beginDelayedTransition(view as ViewGroup, AutoTransition())
+                        visibility = GONE
+                    }
+                }
+            }
+
+
+            if (!token.isExpanded) {
+                imageView.visibility = GONE
+            } else {
+                imageView.visibility = VISIBLE
+                listener.onImageClicked(token, imageView)
+            }
         }
     }
 

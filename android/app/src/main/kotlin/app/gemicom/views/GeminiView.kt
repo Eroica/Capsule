@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.gemicom.R
 import app.gemicom.models.Anchor
+import app.gemicom.models.AppSettings
 import app.gemicom.models.IGeminiDocument
 import app.gemicom.models.Image
 import app.gemicom.ui.toSp
@@ -16,6 +17,7 @@ import app.gemicom.views.lists.IGemtextClickListener
 import app.gemicom.views.lists.OuterMarginDecoration
 import app.gemicom.views.lists.VerticalRhythmDecoration
 import org.kodein.di.conf.DIGlobalAware
+import org.kodein.di.instance
 
 fun interface IViewInteraction {
     fun onInteracted()
@@ -28,9 +30,10 @@ class GeminiView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyle),
     IGemtextClickListener,
     DIGlobalAware {
+    private val AppSettings: AppSettings by instance()
 
     private val list: RecyclerView
-    private val adapter = GeminiAdapter(this)
+    private val adapter = GeminiAdapter(this, AppSettings)
 
     var listener: IGemtextClickListener? = null
     var scrollListener: IViewInteraction? = null
