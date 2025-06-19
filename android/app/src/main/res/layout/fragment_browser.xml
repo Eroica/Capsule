@@ -20,20 +20,16 @@
 		<com.google.android.material.card.MaterialCardView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			app:cardCornerRadius="4dp"
-			app:cardElevation="0dp">
+			app:cardElevation="0dp"
+			app:cardPreventCornerOverlap="false"
+			app:cardUseCompatPadding="false"
+			app:shapeAppearance="@style/ViewportShape">
 
 			<app.gemicom.views.GeminiView
 				android:id="@id/geminiView"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent" />
 		</com.google.android.material.card.MaterialCardView>
-
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="8dp"
-			android:layout_gravity="bottom"
-			android:background="?colorSurface" />
 
 		<com.google.android.material.progressindicator.LinearProgressIndicator
 			android:id="@+id/progressBar"
