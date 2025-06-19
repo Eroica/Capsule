@@ -32,13 +32,13 @@ fun appModule(databaseDir: Path, mediaDir: Path, cacheDir: Path) = DI.Module(nam
     bindSingleton { GeminiClient(instance()) }
     bindSingleton { SqliteCache(SqliteCache.DEFAULT_CACHE_ID, cacheDir, instance()) }
 
-    bindSingleton(tag = "AppSettings") { SqlPreferences("AppSettings", instance()) }
+    bindSingleton() { AppSettings(SqlPreferences("AppSettings", instance())) }
 }
 
 class App : Application(), DIGlobalAware {
     private val Documents: IDocuments by instance()
     private val DefaultCache: SqliteCache by instance()
-    private val AppSettings: IPreferences by instance(tag = "AppSettings")
+    private val AppSettings: AppSettings by instance()
     private val DefaultContext: IContext by instance()
     private val Writer: CoroutineDispatcher by instance(tag = "WRITER")
 
@@ -53,7 +53,7 @@ class App : Application(), DIGlobalAware {
         DI.global.addImport(appModule(databaseDir, mediaDir, cacheDir))
 
         DefaultContext.co.launch(Writer) {
-            if (AppSettings["isDebug"] == "1") {
+            if (AppSettings.isDebug) {
                 val root = LoggerFactory.getLogger("ROOT") as Logger
                 root.level = Level.DEBUG
             }

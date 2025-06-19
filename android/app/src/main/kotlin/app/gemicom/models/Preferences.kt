@@ -72,3 +72,39 @@ class SqlPreferences(
         }
     }
 }
+
+class AppSettings(private val prefs: IPreferences) {
+    var isDarkTheme: Boolean
+        get() = prefs["isDarkTheme"] == "1"
+        set(value) {
+            prefs["isDarkTheme"] = if (value) "1" else "0"
+        }
+
+    var home: String
+        get() = prefs["home"] ?: ""
+        set(value) {
+            prefs["home"] = value
+        }
+
+    var isShowImagesInline: Boolean
+        get() = prefs["isShowImagesInline"] == "1"
+        set(value) {
+            prefs["isShowImagesInline"] = if (value) "1" else "0"
+        }
+
+    var selectedTab: Long?
+        get() = prefs["selectedTab"]?.toLong()
+        set(value) {
+            prefs["selectedTab"] = value?.toString()
+        }
+
+    var isDebug: Boolean
+        get() = prefs["isDebug"] == "1"
+        set(value) {
+            prefs["isDebug"] = if (value) "1" else "0"
+        }
+
+    fun clear() {
+        prefs.clear()
+    }
+}

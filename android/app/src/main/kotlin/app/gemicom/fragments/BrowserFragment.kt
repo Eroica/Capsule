@@ -48,7 +48,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
     ITabListener,
     IImagePool,
     DIGlobalAware {
-    private val AppSettings: IPreferences by instance(tag = "AppSettings")
+    private val AppSettings: AppSettings by instance()
     private val DefaultCache: SqliteCache by instance()
     private val Certificates: ICertificates by instance()
     private val Dispatcher: CoroutineDispatcher by instance()
@@ -338,7 +338,7 @@ class BrowserFragment : Fragment(R.layout.fragment_browser),
         geminiView().scrollListener = IViewInteraction { unfocusAddressBar() }
         homeButton().setOnClickListener {
             co.launch {
-                val homeCapsule = withContext(Dispatcher) { AppSettings["home"] ?: "" }
+                val homeCapsule = withContext(Dispatcher) { AppSettings.home }
                 if (homeCapsule.isBlank()) {
                     Toast.makeText(context, getString(R.string.browser_toast_set_home), Toast.LENGTH_SHORT).show()
                 } else {

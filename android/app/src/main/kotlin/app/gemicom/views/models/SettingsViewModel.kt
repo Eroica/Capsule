@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.gemicom.models.AppSettings
 import app.gemicom.models.ICertificates
 import app.gemicom.models.IDocuments
 import app.gemicom.models.IPreferences
@@ -21,7 +22,7 @@ class SettingsViewModel : ViewModel(), DIGlobalAware {
     private val Tabs: ITabs by instance()
     private val Certificates: ICertificates by instance()
     private val DefaultCache: SqliteCache by instance()
-    private val AppSettings: IPreferences by instance(tag = "AppSettings")
+    private val AppSettings: AppSettings by instance()
     private val Dispatcher: CoroutineDispatcher by instance()
     private val Writer: CoroutineDispatcher by instance(tag = "WRITER")
 
@@ -32,16 +33,16 @@ class SettingsViewModel : ViewModel(), DIGlobalAware {
     val home: LiveData<String> = _home
 
     val initialization: Job = viewModelScope.launch(Dispatcher) {
-        _isDarkTheme.postValue(AppSettings["isDarkTheme"] == "1")
-        _home.postValue(AppSettings["home"] ?: "")
+        _isDarkTheme.postValue(AppSettings.isDarkTheme)
+        _home.postValue(AppSettings.home)
     }
 
     suspend fun setDarkTheme(isDark: Boolean) = withContext(Writer) {
-        AppSettings["isDarkTheme"] = if (isDark) "1" else "0"
+        AppSettings.isDarkTheme = isDark
     }
 
     suspend fun setHome(home: String) = withContext(Writer) {
-        AppSettings["home"] = home
+        AppSettings.home = home
     }
 
     suspend fun clearCertificates() = withContext(Writer) {
