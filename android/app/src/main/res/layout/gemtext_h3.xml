@@ -4,8 +4,9 @@
 	android:id="@+id/gemtext"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:layout_marginTop="16sp"
 	android:paddingStart="@dimen/gemtext_default_padding"
 	android:paddingEnd="@dimen/gemtext_default_padding"
 	android:textAppearance="?textAppearanceHeadline6"
-	android:layout_marginTop="16sp"
+	android:hyphenationFrequency="normal"
 	tools:text="@string/gemini_page_invalid_quote" />

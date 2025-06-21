@@ -25,5 +25,6 @@
 		android:lineSpacingExtra="6sp"
 		android:textAppearance="?textAppearanceBody2"
 		android:fontFamily="monospace"
+		android:hyphenationFrequency="normal"
 		tools:text="Hello, Gemicom" />
 </LinearLayout>
