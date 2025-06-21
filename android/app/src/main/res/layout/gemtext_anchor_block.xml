@@ -7,10 +7,10 @@
 	android:paddingEnd="@dimen/gemtext_default_padding">
 
 	<TextView
-		android:id="@+id/gemtext"
+		android:id="@+id/gemtextAnchor"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		tools:text="www.wikipedia.org"
 		android:lineSpacingExtra="6sp"
-		android:textAppearance="?textAppearanceBody1" />
+		android:textAppearance="?textAppearanceBody1"
+		tools:text="www.wikipedia.org" />
 </FrameLayout>

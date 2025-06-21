@@ -8,5 +8,6 @@
 	android:paddingStart="@dimen/gemtext_default_padding"
 	android:paddingEnd="@dimen/gemtext_default_padding"
 	android:textAppearance="?textAppearanceHeadline5"
+	android:textIsSelectable="true"
 	android:hyphenationFrequency="normal"
 	tools:text="@string/gemini_page_invalid_quote" />

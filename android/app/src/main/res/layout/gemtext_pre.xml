@@ -13,5 +13,6 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:padding="@dimen/gemtext_default_padding"
+		android:textIsSelectable="true"
 		tools:text="Hello, Gemicom" />
 </HorizontalScrollView>

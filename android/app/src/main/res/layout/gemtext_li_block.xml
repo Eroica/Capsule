@@ -9,5 +9,6 @@
 	android:paddingEnd="@dimen/gemtext_default_padding"
 	android:lineSpacingExtra="6sp"
 	android:textAppearance="?textAppearanceBody1"
+	android:textIsSelectable="true"
 	android:hyphenationFrequency="normal"
 	tools:text="Hello, Gemicom" />

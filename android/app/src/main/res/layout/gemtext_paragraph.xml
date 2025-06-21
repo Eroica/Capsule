@@ -9,4 +9,5 @@
 	android:textAppearance="?textAppearanceBody1"
 	android:lineSpacingExtra="1sp"
 	android:hyphenationFrequency="normal"
+	android:textIsSelectable="true"
 	tools:text="@string/gemini_page_invalid_quote" />

@@ -68,7 +68,7 @@ class GeminiAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
-        holder.itemView.findViewById<TextView?>(R.id.gemtext)?.let {
+        holder.itemView.findViewById<TextView?>(R.id.gemtextAnchor)?.let {
             it.movementMethod = null
         }
 
@@ -141,7 +141,7 @@ class GeminiAdapter(
     }
 
     private fun bindAnchorBlock(view: View, block: AnchorBlock) {
-        view.findViewById<TextView>(R.id.gemtext).apply {
+        view.findViewById<TextView>(R.id.gemtextAnchor).apply {
             val typedValue = TypedValue()
             view.context.theme.resolveAttribute(
                 androidx.appcompat.R.attr.colorPrimary,
